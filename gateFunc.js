@@ -11,10 +11,12 @@ function nandGate(bitA, bitB) {
 }
 
 function xorGate(bitA, bitB) {
-  if (andGate(bitA, bitB) || nandGate(bitA, bitB)) {
+  if (bitA && bitB) {
     return false;
-  } else if (orGate(bitA, bitB)) {
+  } else if (bitA || bitB) {
     return true;
+  } else if (!bitA && !bitB) {
+    return false;
   }
 }
 // console.log(xorGate(false, true));
@@ -95,9 +97,4 @@ function dec2bin(decimal) {
 
   return answer;
 }
-// console.log(dec2bin(9));
-
-function bin2dec(bin) {
-  const squareRoot = bin.length;
-}
-bin2dec([1, 0, 1]);
+console.log(dec2bin(9));
