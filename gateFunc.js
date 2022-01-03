@@ -1,46 +1,23 @@
 function andGate(bitA, bitB) {
-  if (bitA && bitB) {
-    return true;
-  } else {
-    return false;
-  }
+  return bitA && bitB;
 }
 
 function orGate(bitA, bitB) {
-  if (bitA || bitB) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function notGate(bit) {
-  if (bit) {
-    return false;
-  } else if (!bit) {
-    return true;
-  }
+  return bitA || bitB;
 }
 
 function nandGate(bitA, bitB) {
-  if (bitA && bitB) {
-    return false;
-  } else {
-    return true;
-  }
+  return !(bitA && bitB);
 }
 
 function xorGate(bitA, bitB) {
-  if (bitA && bitB) {
+  if (andGate(bitA, bitB) || nandGate(bitA, bitB)) {
     return false;
-  } else if (bitA || bitB) {
+  } else if (orGate(bitA, bitB)) {
     return true;
-  } else if (!bitA && !bitB) {
-    return false;
   }
 }
 // console.log(xorGate(false, true));
-// console.log(notGate(false));
 // console.log(andGate(true, false));
 
 // 논리연산자로만 동작
@@ -118,4 +95,9 @@ function dec2bin(decimal) {
 
   return answer;
 }
-console.log(dec2bin(9));
+// console.log(dec2bin(9));
+
+function bin2dec(bin) {
+  const squareRoot = bin.length;
+}
+bin2dec([1, 0, 1]);
