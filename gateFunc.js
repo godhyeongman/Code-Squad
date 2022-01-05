@@ -78,19 +78,15 @@ function dec2bin(decimal) {
 
 function bin2dec(bin) {
   // 여기가 오류있네!!!!!!!!빼액
-  const answer = bin
-    .map((item, idx) => item * idx ** 2)
-    .reduce((a, b) => a + b);
+  const answer = bin.reduce((acc, curr, idx) => acc + curr * idx ** 2);
   return answer;
 }
-console.log(bin2dec([1, 0, 1, 0, 0, 1]));
+// console.log(bin2dec([1, 0, 1, 0, 0, 1]));
 
 const convertHex2dec = (hex) => {
   const hexArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
   let answer = 0;
-  hexArr.forEach((item, idx) => {
-    if (hex === item) answer = idx;
-  });
+  hexArr.findIndex((item) => hex === item);
   return answer;
 };
 
@@ -107,7 +103,6 @@ function hex2bin(hex) {
 function bin2hex(bin) {
   const hexArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
   let dec = bin2dec(bin);
-  console.log(dec);
   const answer = [];
   while (dec > 16) {
     answer.push(hexArr[dec % 16]);
@@ -125,4 +120,8 @@ function dec2bin2hex(decA, decB) {
   const answer = bin2hex(addedByte);
   return answer;
 }
-console.log(dec2bin2hex(25, 12));
+// console.log(dec2bin2hex(25, 12));
+
+//////////////////////왜 두개의 결과가 29로 동일할까?///////////////////////
+// console.log(bin2dec([true, false, true, true, true]));
+// console.log(bin2dec([true, false, true, false, false, true]));
