@@ -1,0 +1,14 @@
+{
+  "name": "cs01",
+  "version": "1.0.0",
+  "description": "codeSquadCS01",
+  "main": "gateFunc.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.4.7"
+  }
+}
