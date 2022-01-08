@@ -23,23 +23,18 @@ function xorGate(bitA, bitB) {
   return (!bitA && bitB) || (bitA && !bitB);
 >>>>>>> c0751481a4cd93b30ba0f8c3286d8e9591fb1cbc
 }
-// console.log(xorGate(false, true));
+// console.log(xorGate(false, false));
 // console.log(notGate(false));
 // console.log(andGate(true, false));
 
 // 논리연산자로만 동작
-// 합을 구하는 내부함수 구현(sum)
-// 자리올림 내부함수 구현(carry)
-// 입력을 두개받아 합과 자리올림을 배열로 리턴하는 함수 구현(halfAdder)
 
 function sum(bitA, bitB) {
   return xorGate(bitA, bitB);
 }
 
 function carry(bitA, bitB) {
-  if (andGate(bitA, bitB)) {
-    return true;
-  }
+  return andGate(bitA, bitB);
 }
 
 function halfAdder(bitA, bitB) {
@@ -48,9 +43,10 @@ function halfAdder(bitA, bitB) {
 }
 
 function fullAdder(bitA, bitB, carry) {
-  const abHalf = halfAdder(bitA, bitB);
-  const sumCarryHalf = halfAdder(carry, abHalf[0]);
-  return [sumCarryHalf[0], sumCarryHalf[1] || abHalf[1]];
+  const [firstSum, firstCarry] = halfAdder(bitA, bitB);
+  const [secondSum, secondCarry] = halfAdder(carry, firstSum);
+  const carryOut = orGate(firstCarry, secondCarry);
+  return [secondSum, carryOut];
 }
 
 // console.log(binaryCalc.sum(false, false));
@@ -59,35 +55,95 @@ function fullAdder(bitA, bitB, carry) {
 
 function byteAdder(byteA, byteB) {
   let carryCount = false;
-  const answer = byteA.map((item, idx) => {
-    const adderArr = fullAdder(byteA[idx], byteB[idx], carryCount);
-    carryCount = adderArr[1];
-    return adderArr[0];
-  });
+  const largeLength = Math.max(byteA.length, byteB.length);
+  const answer = [];
+  for (let i = 0; i < largeLength; i++) {
+    const [byteSum, byteCarry] = fullAdder(byteA[i], byteB[i], carryCount);
+    carryCount = byteCarry;
+    answer.push(byteSum);
+  }
+  if (carryCount) {
+    answer.push(carryCount);
+  }
   return answer;
 }
-// console.log(byteAdder([1, 1, 0, 1, 1, 0, 1, 0], [1, 0, 1, 1, 0, 0, 1, 1]));
-// 오류있음 물어보자 팀원들한테
 
-//dec2bin
+// console.log(
+//   byteAdder(
+//     [true, true, false, true, true, false, true, false, false],
+//     [true, false, true, true, false]
+//   )
+// );
 
 function dec2bin(decimal) {
   const answer = [];
-  while (true) {
-    const divideDecBy2 = (divideNum) => Math.floor(divideNum / 2);
-    answer[divideDecBy2(decimal)] = decimal % 2;
-    if (divideDecBy2(decimal) < 1) return answer;
-    decimal = divideDecBy2(decimal);
-    console.log(decimal);
+  while (decimal > 1) {
+    answer.push(decimal % 2);
+    decimal = parseInt(decimal / 2);
   }
+  answer.push(decimal);
+  return answer;
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 console.log(dec2bin(9));
 =======
 console.log(dec2bin(12));
+=======
+// console.log(dec2bin(10));
+>>>>>>> 980cb3130509b285f9e29c142eee3251ab7d84fb
 
 function bin2dec(bin) {
-  const squareRoot = bin.length;
+  // 여기가 오류있네!!!!!!!!빼액
+  const answer = bin.reduce((acc, curr, idx) => acc + curr * idx ** 2);
+  return answer;
 }
+<<<<<<< HEAD
 // bin2dec([1, 0, 1]);
 >>>>>>> c0751481a4cd93b30ba0f8c3286d8e9591fb1cbc
+=======
+// console.log(bin2dec([1, 0, 1, 0, 0, 1]));
+
+const convertHex2dec = (hex) => {
+  const hexArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
+  let answer = 0;
+  hexArr.findIndex((item) => hex === item);
+  return answer;
+};
+
+function hex2bin(hex) {
+  const hex2dec = [];
+  hex.forEach((item) => {
+    hex2dec.push(convertHex2dec(item));
+  });
+  const addDec = hex2dec.reduce((a, b) => a + b);
+  return dec2bin(addDec);
+}
+// console.log(hex2bin(["A", "B", 2, 5]));
+
+function bin2hex(bin) {
+  const hexArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
+  let dec = bin2dec(bin);
+  const answer = [];
+  while (dec > 16) {
+    answer.push(hexArr[dec % 16]);
+    dec = parseInt(dec / 16);
+  }
+  answer.push(hexArr[dec % 16]);
+  return answer;
+}
+// console.log(bin2hex([1, 0, 1, 1, 1]));
+
+function dec2bin2hex(decA, decB) {
+  const binA = dec2bin(decA).map((item) => (item === 1 ? true : false));
+  const binB = dec2bin(decB).map((item) => (item === 1 ? true : false));
+  const addedByte = byteAdder(binA, binB); //여기까지는 오류 X
+  const answer = bin2hex(addedByte);
+  return answer;
+}
+// console.log(dec2bin2hex(25, 12));
+
+//////////////////////왜 두개의 결과가 29로 동일할까?///////////////////////
+// console.log(bin2dec([true, false, true, true, true]));
+// console.log(bin2dec([true, false, true, false, false, true]));
+>>>>>>> 980cb3130509b285f9e29c142eee3251ab7d84fb
