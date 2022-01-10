@@ -76,7 +76,6 @@ function dec2bin(decimal) {
 // 오류 발견 !!!!!!!
 function bin2dec(bin) {
   const answer = bin.reduce((acc, currItem, idx) => {
-    console.log(`acc: ${acc} curr: ${currItem} idx: ${idx}`);
     return acc + currItem * 2 ** idx;
     // 문제 해결!!!!!! currItem * idx ** 2 ---> currItem * 2 ** idx 가 맞는거임 idx^2 가아닌 2^idx
   });
