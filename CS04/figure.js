@@ -3,7 +3,7 @@ const start = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-
+// 생성자
 function Figure(point) {
   this.name = null;
   this.pointLength = point.length;
@@ -11,11 +11,13 @@ function Figure(point) {
   this.area = null;
 }
 
+// 선길이
 Figure.prototype.line = function (A, B) {
   const getLineLength = Math.sqrt((A[0] - B[0]) ** 2 + (A[1] - B[1]) ** 2);
   return (this.area = getLineLength);
 };
 
+// 삼각형 길이
 Figure.prototype.triangleArea = function () {
   const first = this.line(this.point[0], this.point[1]);
   const second = this.line(this.point[1], this.point[2]);
@@ -27,6 +29,7 @@ Figure.prototype.triangleArea = function () {
   return (this.area = getTriangleArea);
 };
 
+// 사각형 길이
 Figure.prototype.squareArea = function () {
   const first = this.line(this.point[0], this.point[1]);
   const second = this.line(this.point[1], this.point[2]);
@@ -40,18 +43,23 @@ Figure.prototype.squareArea = function () {
   return (this.area = squareArea);
 };
 
+// 다각형 길이(예정)
 Figure.prototype.polygonArea = function () {};
 
+// 이름에 따른 함수호출
 Figure.prototype.checkFigure = function () {
   if (this.name === "line") {
     this.line(this.firstPoint, this.secondPoint);
   } else if (this.name === "triangle") {
     this.triangleArea();
-  } else if ((this.name = "square")) {
+  } else if (this.name === "square") {
     this.squareArea();
+  } else if (this.name === "polygon") {
+    this.polygonArea();
   }
 };
 
+// 이름지정
 Figure.prototype.checkFigureName = function () {
   if (this.pointLength == 2) {
     this.name = "line";
@@ -64,6 +72,7 @@ Figure.prototype.checkFigureName = function () {
   }
 };
 
+// 단계별 이름지정 -> 이름확인 및 호출 -> 출력
 Figure.prototype.logData = function () {
   this.checkFigureName();
   this.checkFigure();
@@ -71,9 +80,12 @@ Figure.prototype.logData = function () {
   return;
 };
 
+// 시작점
+
 start.question("점을 입력하세요. > ", (input) => {
   const splitDash = input.split("-").map((item) => item.split(","));
   const answer = new Figure(splitDash);
   answer.logData();
+  console.log(answer.prototype);
   start.close();
 });
