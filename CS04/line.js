@@ -1,3 +1,10 @@
+const { stdout } = require("process");
+const readline = require("readline");
+const start = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
 class Figure {
   constructor(coord) {
     this.coord = coord;
@@ -80,12 +87,14 @@ class Rectangle extends Figure {
     return this.height * this.width;
   }
 }
-//(10,10)-(22,10)-(22,18)-(10,18)
-const test = new Rectangle([
-  [10, 10],
-  [22, 10],
-  [22, 18],
-  [10, 18],
-]);
 
-console.log(test.getArea());
+//(10,10)-(22,10)-(22,18)-(10,18)
+// const test = new Rectangle([
+//   [10, 10],
+//   [22, 10],
+//   [22, 18],
+//   [10, 18],
+// ]);
+
+// console.log(test.getArea());
+module.exports = { Point, Line, Triangle, Rectangle };
