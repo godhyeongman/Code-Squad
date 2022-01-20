@@ -1,25 +1,25 @@
-// function solution(board, moves) {
-//   let answer = 0;
-//   const basket = [];
-//   for (let i = 0; i < moves.length; i++) {
-//     for (let j = 0; j < board.length; j++) {
-//       if (board[j][moves[i] - 1] !== 0) {
-//         basket.push(board[j][moves[i] - 1]);
-//         board[j][moves[i] - 1] = 0;
-//         break;
-//       }
-//     }
+function solution(board, moves) {
+  let answer = 0;
+  const basket = [];
+  for (let i = 0; i < moves.length; i++) {
+    for (let j = 0; j < board.length; j++) {
+      if (board[j][moves[i] - 1] !== 0) {
+        basket.push(board[j][moves[i] - 1]);
+        board[j][moves[i] - 1] = 0;
+        break;
+      }
+    }
 
-//     if (
-//       basket.length > 1 &&
-//       basket[basket.length - 1] === basket[basket.length - 2]
-//     ) {
-//       basket.splice(basket.length - 2, 2);
-//       answer += 2;
-//     }
-//   }
-//   return answer;
-// }
+    if (
+      basket.length > 1 &&
+      basket[basket.length - 1] === basket[basket.length - 2]
+    ) {
+      basket.splice(basket.length - 2, 2);
+      answer += 2;
+    }
+  }
+  return answer;
+}
 
 // console.log(
 //   solution(
@@ -57,4 +57,4 @@ function solution(answers) {
   return bingBong;
 }
 
-console.log(solution([1, 3, 2, 4, 2]));
+// console.log(solution([1, 3, 2, 4, 2]));

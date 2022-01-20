@@ -1,21 +1,11 @@
 class Heap {
-  constructor(size) {
+  constructor(size, baseAddress) {
     this.storage = [];
-    this.size;
-  }
-
-  inputData(data) {
-    this.storage.unshift(data);
-  }
-
-  deleteData(data) {
-    this.storage.shift(data);
-  }
-
-  getAddress(data) {
-    this.storage.findIndex(data);
+    this.size = size;
+    this.pointer = baseAddress;
   }
 }
+module.exports = Heap;
 
 // class MaxBinaryHeap {
 //   constructor() {
