@@ -1,24 +1,25 @@
-const { ProcessA, ProcessB, ProcessC, ProcessD } = require("./process.js");
+const { Process } = require("./process.js");
 
-class Program {
+class Scheduler {
   constructor() {
     this.readyQue = this.LongTermScheduling(); // create시 바로 readyQue로 이동됨
-    // this.waitingQue = [];
-    this.TaskTime = null;
+    // this.waitingQue = []; // 요건 나중에 인터럽트 필요하면하자
+    this.taskTime = this.readyQue.reduce((acc, curr) => {
+      acc += curr.wholeTask;
+      return acc;
+    }, 0);
+    this.terminate = [];
+    this.processA = this.readyQue.find((item) => item.id === 0);
+    this.processB = this.readyQue.find((item) => item.id === 1);
+    this.processC = this.readyQue.find((item) => item.id === 2);
   }
+
   create() {
-    const randProcess = [
-      new ProcessA(),
-      new ProcessB(),
-      new ProcessC(),
-      new ProcessD(),
-    ];
     const createdProcess = [];
     for (let i = 0; i < 3; i++) {
-      const randNum = Math.floor(Math.random() * randProcess.length);
-      const newProcess = [...randProcess][randNum];
+      const newProcess = new Process();
+      newProcess.id = i;
       createdProcess.push(newProcess);
-      randProcess.splice(randNum, 1);
     }
     return createdProcess;
   }
@@ -26,10 +27,8 @@ class Program {
   LongTermScheduling() {
     let processTime = 20; // 총작업 시간
     const noTaskProcess = this.create();
-
     const createdProcess = noTaskProcess.map((item, idx) => {
-      // 시분할
-      const randTime = Math.floor(Math.random() * processTime);
+      const randTime = Math.floor(Math.random() * (processTime - 1)) + 1;
       item.wholeTask = randTime;
       if (idx === 2) item.wholeTask = processTime;
       processTime -= randTime;
@@ -38,28 +37,54 @@ class Program {
     return createdProcess;
   }
 
-  //   shortTermScheduling() {
-  //     this.readyQue.sort((a, b) => a.wholeTask - b.wholeTask); // 이런 방식으로는
-  //     this.run(this.readyQue[0]);
-  //   }
+  run = () => {
+    this.readyQue[0].currTask++;
+    if (this.checkDone(this.readyQue[0])) {
+      this.showTask();
+      if (this.readyQue.length === 0) console.log("모든작업이 끝났습니다."); // 이부분도 마음에 안든다
+      return;
+    }
+    this.readyQue[0].statement = "running";
+    this.showTask();
+    this.preempt();
+  };
 
-  run(task) {
-    setTimeout(() => {
-      task.currTask++;
-      const a = this.readyQue.shift();
-      console.log(a);
-      this.readyQue.push(a);
-      console.log(this.readyQue);
-    }, 1000);
+  checkDone(process) {
+    if (process.currTask === process.wholeTask) {
+      const taskDone = this.readyQue.shift();
+      process.statement = "terminated";
+      this.terminate.push(taskDone);
+
+      return true;
+    }
+  }
+
+  preempt() {
+    const preempt = this.readyQue.shift();
+    preempt.statement = "waiting";
+    this.readyQue.push(preempt);
   }
 
   showTask() {
-    console.log(`${d}`);
+    console.log(
+      `A: ${this.processA.statement}, ${this.processA.currTask} \nB: ${this.processB.statement}, ${this.processB.currTask} \nC: ${this.processC.statement}, ${this.processC.currTask} \n`
+    );
   }
-  start() {}
 
-  terminate() {}
+  chageStatementWait() {
+    this.processA.statement = "waiting";
+    this.processB.statement = "waiting";
+    this.processC.statement = "waiting";
+  }
+
+  start() {
+    this.showTask();
+    this.chageStatementWait();
+    for (let i = 0; i < this.taskTime; i++) {
+      setTimeout(this.run, 1000 * (i + 1));
+    }
+  }
 }
 
-const test = new Program();
-test.shortTermScheduling();
+const test = new Scheduler();
+test.start();
