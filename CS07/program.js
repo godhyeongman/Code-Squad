@@ -39,14 +39,6 @@ class Scheduler {
 
   run = () => {
     this.readyQue[0].currTask++;
-    if (this.checkDone(this.readyQue[0])) {
-      this.showTask();
-      if (this.readyQue.length === 0) console.log("모든작업이 끝났습니다."); // 이부분도 마음에 안든다
-      return;
-    }
-    this.readyQue[0].statement = "running";
-    this.showTask();
-    this.preempt();
   };
 
   checkDone(process) {
@@ -54,8 +46,6 @@ class Scheduler {
       const taskDone = this.readyQue.shift();
       process.statement = "terminated";
       this.terminate.push(taskDone);
-
-      return true;
     }
   }
 
@@ -81,10 +71,23 @@ class Scheduler {
     this.showTask();
     this.chageStatementWait();
     for (let i = 0; i < this.taskTime; i++) {
-      setTimeout(this.run, 1000 * (i + 1));
+      setTimeout(() => {
+        this.readyQue[0].statement = "running";
+        this.run();
+        if (this.readyQue.length === 0) {
+          this.showTask();
+          console.log("모든작업이 끝났습니다."); // 이부분도 마음에 안든다
+          return;
+        }
+        this.showTask();
+        this.preempt();
+        this.checkDone(this.readyQue[0]);
+      }, 100 * (i + 1));
     }
   }
 }
 
 const test = new Scheduler();
 test.start();
+
+module.exports = Scheduler;
