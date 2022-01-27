@@ -1,18 +1,11 @@
-const readlineSync = require("readline-sync");
-const EventEmitter = require("events");
-const emitter = new EventEmitter();
-const userName = readlineSync.question("될까?");
-console.log(userName);
+const { Cashier, Mannager, Barista } = require("./cafe-worker");
+const OrderQueue = require("./orderQueue.js");
 
-emitter.on("messageLogged", function () {
-  console.log("its good");
-});
-emitter.on("오 이게되네", () => {
-  console.log("test fail");
-});
-//에밋 뜻 소음만들기, 무언가 만들기
-emitter.emit("messageLogged");
+const order = new OrderQueue();
+const cashier = new Cashier();
+const mannager = new Mannager();
+const barista = new Barista();
 
-class Cafe {
-  constructor() {}
-}
+cashier.getInput(order.managerQue);
+mannager.checkSchdule(order.managerQue, order.baristarQue);
+barista.makingCoffe(order.baristarQue);
