@@ -1,17 +1,17 @@
 const Heap = require("./heap");
 const Stack = require("./Stack");
 class Memory {
-  constructor() {
+  constructor(size, address) {
+    this.size = size;
+    this.address = address;
     this.heap = null;
     this.stack = null;
     this.typeStorage = { stack: 4 };
   }
 
   init(stackSize, heapSize) {
-    const stack = new Stack(stackSize, heapSize + stackSize);
-    const heap = new Heap(heapSize, 0);
-    this.stack = stack;
-    this.heap = heap;
+    this.stack = new Stack(stackSize, heapSize + stackSize);
+    this.heap = new Heap(heapSize, 0);
     return { heapBaseAddress: 0, stackBaseAddress: stackSize + heapSize }; // 양 사이즈 의 끝이 stack의 기본주소 시작은 heap기본주소
   }
 
@@ -30,25 +30,131 @@ class Memory {
   malloc(type, count) {
     if (!this.typeStorage[type]) return console.log("타입이 없습니다.");
 
-    const data = {
-      type: type,
-      address: this.stack.pointer,
-    };
+    let size = this.typeStorage[type];
+    const stackPointer = this.stack.pointer;
+    const stackData = { address: stackPointer, heapPoint: this.heap.pointer };
+    this.stack.storage.push(stackData);
+    this.stack.pointer -= 4;
 
     for (let i = 0; i < count; i++) {
-      if (data.address > this.stack.size) {
-        return this.stack.size;
+      if (size < 8) {
+        size = 8;
       }
-      this.stack.storage.push(data);
+      const heapData = { type, size, stackPointer };
+      this.heap.storage.unshift(heapData);
+      this.heap.pointer += size;
     }
   }
+
+  free(pointer) {
+    const removedData = this.stack.storage.find((item, idx) => {
+      if (item.address === pointer) {
+        this.stack.storage.splice(idx, 1);
+        return item;
+      }
+    }); // pointer가 가진 스택 데이터
+
+    this.stack.pointer += 4;
+    this.heap.storage = this.heap.storage.reduce((acc, curr) => {
+      if (curr.stackPointer !== removedData.address) {
+        acc.push(curr);
+      } else if (curr.stackPointer === removedData.address) {
+        this.heap.pointer -= curr.size;
+      }
+      return acc;
+    }, []);
+  }
+
+  call(name, paramCount) {
+    if (paramCount < 0 || 10 < paramCount) {
+      console.log("반복 횟수가 잘못되었습니다.");
+      return;
+    } else if (name.split("").length >= 8) {
+      console.log("이름 길이가 잘못되었습니다.");
+    }
+    for (let i = 0; i < paramCount; i++) {
+      this.stack.storage.push({ name: name, address: this.stack.pointer });
+      this.stack.pointer -= 4;
+    }
+  }
+
+  returnFrom(name) {
+    const address = this.stack.storage.findIndex((item) => item.name === name);
+    const removedStack = this.stack.storage.reduce((acc, curr, idx) => {
+      if (idx < address) {
+        acc.push(curr);
+      } else if (idx >= address) {
+        this.stack.pointer += 4;
+      }
+      return acc;
+    }, []);
+
+    this.stack.storage = removedStack;
+
+    this.callstack();
+  }
+
+  usage() {
+    const stackSize = this.stack.size;
+    const heapSize = this.heap.size;
+    const usedStack = this.stack.pointer - heapSize;
+    const usedHeap = heapSize - this.heap.pointer;
+
+    console.log(
+      `스택 사이즈:${stackSize}, 사용가능: ${usedStack}\n힙사이즈: ${heapSize}, 사용가능: ${usedHeap}`
+    );
+  }
+
+  callstack() {
+    const firstObj = this.stack.storage.find((item) => item.name);
+    const lastObj = this.stack.storage.reduce((acc, curr) => {
+      if (curr.name) {
+        acc = curr;
+      }
+      return acc;
+    });
+
+    console.log(
+      `${firstObj.name} ${firstObj.address}=> ${lastObj.name} ${lastObj.address}`
+    );
+  }
+
+  heapDump() {
+    const data = [];
+    this.heap.storage.forEach((item) => {
+      const names = data.reduce((acc, curr) => {
+        acc.push(curr.type);
+        return acc;
+      }, []);
+
+      if (!names.includes(item.type)) {
+        data.push(item);
+        console.log(
+          `name: ${item.type}, size: ${item.size}, pointer: ${item.stackPointer}`
+        );
+      }
+    });
+  }
+
+  gabageCollect() {}
 }
 
-const test = new Memory();
+const test = new Memory(100, 0);
 
-test.init(20, 20);
-console.log(test.heap, test.stack);
+test.init(20, 40);
 test.setSize("int", 4);
+test.setSize("num", 4);
+test.malloc("int", 2);
+test.malloc("num", 2);
+test.free(60);
+test.call("foo", 2);
+test.call("bar", 1);
+test.call("dap", 1);
+test.malloc("int", 1);
+test.returnFrom("dap");
+test.heapDump();
+test.usage();
+// console.log(test.heap, test.stack);
 
 // class Data {
 //   constructor(type, address) {
