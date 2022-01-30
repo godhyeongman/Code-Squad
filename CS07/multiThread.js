@@ -1,9 +1,16 @@
-const workerThreads = require("worker_threads");
-const Scheduler = require("./program.js");
-let thread1;
-let thread2;
-let thread3;
+const { workerData, parentPort } = require("worker_threads");
 
-thread1 = new workerThreads(__dirname + "./multiThreads.js");
-thread2 = new workerThreads(__dirname + "./multiThreads.js");
-thread3 = new workerThreads(__dirname + "./multiThreads.js");
+if (workerData.worker === 0) {
+  workerData.worker = 1;
+}
+
+function getResult() {
+  let task = 0;
+  for (let i = 0; i < workerData.worker; i++) {
+    task++;
+  }
+  return task;
+}
+
+const result = getResult();
+parentPort.postMessage(result);

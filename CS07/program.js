@@ -1,5 +1,7 @@
 const { Process } = require("./process.js");
-
+const { Worker } = require("worker_threads");
+const { resolve } = require("path");
+const { rejects } = require("assert");
 class Scheduler {
   constructor() {
     this.readyQue = this.LongTermScheduling(); // create시 바로 readyQue로 이동됨
@@ -37,9 +39,23 @@ class Scheduler {
     return createdProcess;
   }
 
-  run = () => {
-    this.readyQue[0].currTask++;
-  };
+  setWorker() {
+    this.processA.worker = parseInt(this.processA.wholeTask / 2);
+    this.processB.worker = parseInt(this.processB.wholeTask / 2);
+    this.processC.worker = parseInt(this.processC.wholeTask / 2);
+  }
+
+  workOut(process) {
+    let result;
+    return new Promise((resolve, rejects) => {
+      const worker = new Worker("./multiThread.js", { workerData: process });
+      worker.on("message", resolve);
+    });
+  }
+
+  async run() {
+    this.readyQue[0].currTask += await this.workOut(this.readyQue[0]);
+  }
 
   checkDone(process) {
     if (process.currTask === process.wholeTask) {
@@ -74,20 +90,22 @@ class Scheduler {
       setTimeout(() => {
         this.readyQue[0].statement = "running";
         this.run();
+        this.showTask();
+        this.checkDone(this.readyQue[0]);
         if (this.readyQue.length === 0) {
           this.showTask();
           console.log("모든작업이 끝났습니다."); // 이부분도 마음에 안든다
           return;
         }
-        this.showTask();
         this.preempt();
-        this.checkDone(this.readyQue[0]);
       }, 100 * (i + 1));
     }
   }
 }
 
 const test = new Scheduler();
+test.setWorker();
+console.log(test.processA.worker, test.processB.worker, test.processC.worker);
 test.start();
 
 module.exports = Scheduler;

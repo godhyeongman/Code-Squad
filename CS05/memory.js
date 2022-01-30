@@ -114,6 +114,10 @@ class Memory {
       return acc;
     });
 
+    if (!firstObj || !lastObj) {
+      return;
+    }
+
     console.log(
       `${firstObj.name} ${firstObj.address}=> ${lastObj.name} ${lastObj.address}`
     );
@@ -121,6 +125,9 @@ class Memory {
 
   heapDump() {
     const data = [];
+    if (!this.heap.storage) {
+      return;
+    }
     this.heap.storage.forEach((item) => {
       const names = data.reduce((acc, curr) => {
         acc.push(curr.type);
@@ -136,7 +143,22 @@ class Memory {
     });
   }
 
-  gabageCollect() {}
+  gabageCollect() {
+    const stackPointers = this.stack.storage.reduce((acc, curr) => {
+      if (!acc.includes(curr.heapPoint)) {
+        acc.push(curr.heapPoint);
+      }
+      return acc;
+    }, []);
+
+    this.heap.storage = this.heap.storage.reduce((acc, curr) => {
+      if (stackPointers.includes(curr.stackPointer)) {
+        acc.push(curr);
+      } else if (!stackPointers.includes(curr.stackPointer)) {
+        this.heap.pointer -= curr.size;
+      }
+    }, []);
+  }
 }
 
 const test = new Memory(100, 0);
@@ -151,10 +173,11 @@ test.call("foo", 2);
 test.call("bar", 1);
 test.call("dap", 1);
 test.malloc("int", 1);
-test.returnFrom("dap");
+test.returnFrom("foo");
+test.free(56);
+test.gabageCollect();
 test.heapDump();
 test.usage();
-// console.log(test.heap, test.stack);
 
 // class Data {
 //   constructor(type, address) {
