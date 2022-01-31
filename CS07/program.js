@@ -62,6 +62,8 @@ class Scheduler {
       const taskDone = this.readyQue.shift();
       process.statement = "terminated";
       this.terminate.push(taskDone);
+    } else if (!process) {
+      return;
     }
   }
 
@@ -85,19 +87,25 @@ class Scheduler {
 
   start() {
     this.showTask();
+    console.log(
+      this.processA.wholeTask,
+      this.processB.wholeTask,
+      this.processC.wholeTask
+    );
     this.chageStatementWait();
     for (let i = 0; i < this.taskTime; i++) {
       setTimeout(() => {
         this.readyQue[0].statement = "running";
         this.run();
         this.showTask();
+        this.preempt();
         this.checkDone(this.readyQue[0]);
         if (this.readyQue.length === 0) {
+          console.log(this.readyQue);
           this.showTask();
           console.log("모든작업이 끝났습니다."); // 이부분도 마음에 안든다
           return;
         }
-        this.preempt();
       }, 100 * (i + 1));
     }
   }
