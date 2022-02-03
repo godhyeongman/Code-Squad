@@ -46,15 +46,19 @@ class Scheduler {
   }
 
   workOut(process) {
-    let result;
-    return new Promise((resolve, rejects) => {
+    for (let i = 0; i < process.worker; i++) {
+      // return new Promise((resolve, rejects) => {
+      //   const worker = new Worker("./multiThread.js", { workerData: process });
+      //   worker.on("message", resolve);
+      // });
       const worker = new Worker("./multiThread.js", { workerData: process });
-      worker.on("message", resolve);
-    });
+      return worker.on("message");
+    }
   }
 
   async run() {
     this.readyQue[0].currTask += await this.workOut(this.readyQue[0]);
+    console.log(this.workOut(this.readyQue[0]));
   }
 
   checkDone(process) {
@@ -106,7 +110,7 @@ class Scheduler {
           console.log("모든작업이 끝났습니다."); // 이부분도 마음에 안든다
           return;
         }
-      }, 100 * (i + 1));
+      }, 1000 * (i + 1));
     }
   }
 }
