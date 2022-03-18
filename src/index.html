@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="./style/init.css" />
     <link rel="stylesheet" href="./style/header.css" />
+    <link rel="stylesheet" href="./style/banner.css" />
   </head>
   <body>
     <header class="header">
@@ -32,10 +33,15 @@
         <div class="header__main--contents">
           <div class="header__main--searchZone">
             <div class="header__main--logo"></div>
-            <form class="header__main--inputWrapper">
-              <input class="header__main--searchInput" />
-            </form>
+            <div class="header__main__searchInterFace">
+              <div class="header__main--inputMenuButton">
+                <div class="header__main--inputMenu">전체</div>
+              </div>
 
+              <form class="header__main--inputWrapper">
+                <input class="header__main--searchInput" />
+              </form>
+            </div>
             <div
               class="header__main--myShopping"
               data-myShopping="history"
@@ -69,6 +75,6 @@
         </ul>
       </nav>
     </main>
-    <script type="module" src="./EventHandler/SearchInputEvent.js"></script>
+    <script type="module" src="./index.js"></script>
   </body>
 </html>

@@ -7,6 +7,10 @@ function findMatchData(keyWord) {
   return checkMatchWord(keyWord.trim(), filterdData);
 }
 
+function findSearchMenu() {
+  return searchingData["검색메뉴"];
+}
+
 function getFirstWordArr(keyWord) {
   const trimed = keyWord.trim().split(" ");
   return trimed.map((word) => getFirstWord(word));
@@ -42,4 +46,4 @@ function checkMatchWord(keyWord, data) {
   }, []);
 }
 
-module.exports = { findMatchData };
+module.exports = { findMatchData, findSearchMenu };
