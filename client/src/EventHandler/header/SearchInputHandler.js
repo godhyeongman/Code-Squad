@@ -23,35 +23,37 @@ class SearchInputEventHandler {
   }
 
   addSpecialKeyEvent() {
-    const ENTER = 13;
-    const KEY_UP = 38;
-    const KEY_DOWN = 40;
-
     this.targetDom.addEventListener("keydown", (event) => {
       const {
-        keyCode,
+        key,
         target: { value },
       } = event;
 
-      if (keyCode === ENTER) {
+      if (key === "Enter") {
         event.preventDefault();
-        this.historyManager.addData2localStorage(value);
+        const localData = this.historyManager.addData2localStorage(value);
+        const fitData = this.historyManager.fitHistorySize(localData);
+        this.historyManager.observer.notify(fitData);
         return;
       }
 
-      if (keyCode === KEY_UP || keyCode === KEY_DOWN) {
-        this.keyboardManager.searchInputArrow(keyCode);
+      if (key === "ArrowUp" || key === "ArrowDown") {
+        this.keyboardManager.searchInputArrow(key);
       }
     });
   }
 
-  onInputEvent({ target: { value } }) {
+  async onInputEvent({ target: { value } }) {
     const uri = `search/${value}`; // 추후 util폴더 constants로 추가할 예정
-    this.router.setAutoCompleteData(uri);
+    const autoCompleteData = await this.router.setAutoCompleteData(uri);
+    this.router.observer.notify(autoCompleteData);
   }
 
   onFocusEvent() {
-    this.historyManager.manageHistory();
+    const localdata = this.historyManager.getLocalHistory();
+    const fitData = this.historyManager.fitHistorySize(localdata);
+    this.historyManager.observer.notify(fitData);
+    // controller에 옵저버를 등록하고 사용할지(보기 편할것같아) historyManager에 등록하고 사용할지 고민하다 Data변화를 관측한다는 의미에서 historyManager에 observer를 등록했습니다.
   }
 }
 

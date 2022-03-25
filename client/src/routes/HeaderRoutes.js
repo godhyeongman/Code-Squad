@@ -1,28 +1,28 @@
 import * as fetchUtil from "../util/fetchutil.js";
 
 class HeaderRoutes {
-  constructor(dataDispatcher) {
-    this.dataDispatcher = dataDispatcher;
+  constructor(inputObserver, menuObserver) {
+    this.inputObserver = inputObserver;
+    this.menuObserver = menuObserver;
   }
 
-  async setAutoCompleteData(uri) {
+  async getAutoCompleteData(uri) {
     const data = await fetchUtil.fetchData(uri);
 
     if (this.isEmptyData(data)) {
       return;
     }
 
-    this.dataDispatcher.searchInputData = data; // setter 호출
+    return data;
   }
 
   async getMenuData(uri) {
     const data = await fetchUtil.fetchData(uri);
-
-    this.dataDispatcher.searchMenuData = data;
+    return data;
   }
 
   isEmptyData(data) {
-    if (!Array.isArray(data) || data.length <= 0) {
+    if (data.length <= 0) {
       return true;
     }
   }
