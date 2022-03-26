@@ -1,10 +1,10 @@
 import { ToggleView } from "../AbstractToggleView.js";
 import * as domUtil from "../../util/domutil.js";
 
-function SearchInputView() {
+function SearchInputView(state) {
   ToggleView.apply(this, arguments);
   this.emptyHistoryContents = ["검색 결과 없음"];
-
+  this.state = state;
   this.searchHistoryData = new Set(
     JSON.parse(localStorage.getItem("localSearchHistory"))
   );
@@ -15,6 +15,7 @@ function SearchInputView() {
 SearchInputView.prototype = Object.create(ToggleView.prototype);
 
 SearchInputView.prototype.render = function (autoCompleteDom) {
+  // template생성및 dom조작으로 변경할것
   const removeTarget = ".search--toggle--ul";
   this.removePrevView(this.parentDom, removeTarget);
   const removeBtn = autoCompleteDom.querySelector(
@@ -43,8 +44,28 @@ SearchInputView.prototype.hilight = function ({ prev, current, list }) {
   list[current].style.color = signatureColor;
 };
 
-SearchInputView.prototype.addremoveHistoryEvent = function (target) {
-  target.addEventListener("click", () => console.log("test"));
+////////////// View 에서 이벤트 입력 받는 방식으로 수정중 ///////////////
+SearchInputView.prototype.addHistoryBtnEvent = function (target) {
+  target.addEventListener("click", () => this.ClickRemoveBtn);
+};
+
+SearchInputView.prototype.addInputEvent = function (dom) {
+  dom.addEventListener("input", () => this.inputSearchZone);
+};
+
+SearchInputView.prototype.addFocusEvent = function (dom) {
+  dom.addEventListener("focus", () => this.focusSearchZone);
+};
+
+SearchInputView.prototype.addSpecialKeyEvent = function (dom) {
+  dom.addEventListener("keydown", () => this.inputSpecialKey);
+};
+
+SearchInputView.prototype.init = function ({ targetDom }) {
+  this.addInputEvent(targetDom);
+  this.addInputEvent(targetDom);
+  this.addFocusEvent(targetDom);
+  this.addSpecialKeyEvent(targetDom);
 };
 
 export { SearchInputView };

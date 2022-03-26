@@ -1,13 +1,13 @@
 import { Toggle } from "./AbstractToggle.js";
 
-function SearchInputToggle() {
-  this.liClassName = "search--toggle--li";
-  this.ulClassName = "search--toggle--ul";
+function SearchInputToggle({ liClassName, ulClassName }) {
+  this.liClassName = liClassName;
+  this.ulClassName = ulClassName;
 }
 
-function SearchMenuToggle() {
-  this.liClassName = "search--menu--li";
-  this.ulClassName = "search--menu--ul";
+function SearchMenuToggle({ liClassName, ulClassName }) {
+  this.liClassName = liClassName;
+  this.ulClassName = ulClassName;
 }
 
 SearchInputToggle.prototype = Object.create(Toggle.prototype);
