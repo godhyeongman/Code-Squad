@@ -1,9 +1,11 @@
+import ObserverPublisher from "../../observer/Observer.js";
+
 class SearchInputEventHandler {
   constructor(dataManager, historyManager, keyboardManager) {
-    const observer = new SearchObserver();
-    this.dataManager = new dataManager();
-    this.historyManager = new historyManager();
-    this.keyboardManager = new keyboardManager();
+    const inputObserver = new ObserverPublisher();
+    this.dataManager = new dataManager(inputObserver);
+    this.historyManager = new historyManager(inputObserver);
+    this.keyboardManager = new keyboardManager(inputObserver);
   }
 
   init() {
