@@ -46,19 +46,19 @@ SearchInputView.prototype.hilight = function ({ prev, current, list }) {
 
 ////////////// View 에서 이벤트 입력 받는 방식으로 수정중 ///////////////
 SearchInputView.prototype.addHistoryBtnEvent = function (target) {
-  target.addEventListener("click", () => this.ClickRemoveBtn);
+  target.addEventListener("click", () => this.ClickRemoveBtn());
 };
 
 SearchInputView.prototype.addInputEvent = function (dom) {
-  dom.addEventListener("input", () => this.inputSearchZone);
+  dom.addEventListener("input", (event) => this.inputSearchZone(event));
 };
 
 SearchInputView.prototype.addFocusEvent = function (dom) {
-  dom.addEventListener("focus", () => this.focusSearchZone);
+  dom.addEventListener("focus", () => this.focusSearchZone());
 };
 
 SearchInputView.prototype.addSpecialKeyEvent = function (dom) {
-  dom.addEventListener("keydown", () => this.inputSpecialKey);
+  dom.addEventListener("keydown", (event) => this.inputSpecialKey(event));
 };
 
 SearchInputView.prototype.init = function ({ targetDom }) {
