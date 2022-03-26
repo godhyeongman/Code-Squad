@@ -1,10 +1,10 @@
 import { ToggleView } from "../AbstractToggleView.js";
 import * as domUtil from "../../util/domutil.js";
 
-function SearchInputView(state) {
+function SearchInputView() {
   ToggleView.apply(this, arguments);
+  this.toggleDom = domUtil$(".search--toggle--ul");
   this.emptyHistoryContents = ["검색 결과 없음"];
-  this.state = state;
   this.searchHistoryData = new Set(
     JSON.parse(localStorage.getItem("localSearchHistory"))
   );
@@ -43,8 +43,6 @@ SearchInputView.prototype.hilight = function ({ prev, current, list }) {
   list[prev].style.color = "black";
   list[current].style.color = signatureColor;
 };
-
-////////////// View 에서 이벤트 입력 받는 방식으로 수정중 ///////////////
 SearchInputView.prototype.addHistoryBtnEvent = function (target) {
   target.addEventListener("click", () => this.ClickRemoveBtn());
 };
@@ -58,7 +56,9 @@ SearchInputView.prototype.addFocusEvent = function (dom) {
 };
 
 SearchInputView.prototype.addSpecialKeyEvent = function (dom) {
-  dom.addEventListener("keydown", (event) => this.inputSpecialKey(event));
+  dom.addEventListener("keydown", (event) =>
+    this.inputSpecialKey(event, this.toggleDom.length)
+  );
 };
 
 SearchInputView.prototype.init = function ({ targetDom }) {

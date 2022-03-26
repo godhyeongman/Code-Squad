@@ -1,10 +1,29 @@
-import * as domutil from "../../util/domutil.js";
+import * as domutil from "../../../util/domutil.js";
 
 class HeaderKeyboadManager {
-  constructor(searchInputView, searchMenuView) {
-    this.searchInputView = searchInputView;
-    this.searchMenuView = searchMenuView;
+  constructor(observer) {
+    this.observer = observer;
     this.arrowCount = -1;
+  }
+
+  getIdxCount(key, length, count) {
+    if (key === "ArrowUp") {
+      count++;
+    }
+
+    if (key === "ArrowDown") {
+      count++;
+    }
+
+    if (count < 0) {
+      count = length;
+      return count;
+    }
+
+    if (count > length) {
+      count = 0;
+      return count;
+    }
   }
 
   searchInputArrow(key) {

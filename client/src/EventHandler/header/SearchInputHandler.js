@@ -21,12 +21,14 @@ class SearchInputEventHandler {
   }
 
   async inputSearchZone() {
-    const uri = `search/${value}`; // 추후 util폴더 constants로 추가할 예정
-    const autoCompleteData = await this.dataManager.getAutoCompleteData(uri);
+    const autoCompleteUri = `search/${value}`; // 추후 util폴더 constants로 추가할 예정
+    const autoCompleteData = await this.dataManager.getFetchData(
+      autoCompleteUri
+    );
     this.dataManager.observer.notify(autoCompleteData);
   }
 
-  inputSpecialKey(event) {
+  inputSpecialKey(event, length) {
     const {
       key,
       target: { value },
@@ -39,8 +41,8 @@ class SearchInputEventHandler {
     }
 
     if (key === "ArrowUp" || key === "ArrowDown") {
-      const hilightIdx = this.keyboardManager.getIdxCount(key);
-      this.keyboardManager.observer.notifyHiligthIdx(hilightIdx);
+      const hilightIdx = this.keyboardManager.getIdxCount(key, length, count);
+      this.keyboardManager.observer.notifyHilightIdx(hilightIdx);
     }
   }
 }

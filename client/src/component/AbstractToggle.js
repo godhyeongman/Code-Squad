@@ -3,6 +3,7 @@ function Toggle(liContents, liClassName, ulClassName) {
   this.liClassName = liClassName;
   this.dom = document.createElement("ul");
   this.dom.classList.add(ulClassName);
+  this.dom.dataset.toggle = "inputToggle";
   this.dom.innerHTML = this.getHTML();
 }
 
