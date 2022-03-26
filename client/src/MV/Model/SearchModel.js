@@ -20,6 +20,17 @@ class SearchInputModel {
 
     return data;
   }
+
+  changeHilightIdx(count) {
+    const {
+      hilightIdx: { next },
+    } = this.state;
+
+    this.state.hilightIdx.next += count;
+    this.state.hilightIdx.prev = next - count;
+  }
+
+  get;
 }
 
 class SearchMenuModel {
@@ -27,9 +38,7 @@ class SearchMenuModel {
     this.state = state;
   }
 
-  set clickedContents(idx) {
-    this.state.clickedContentsIdx = idx;
-  }
+  set clickedContents(idx) {}
 
   get clickedContents() {
     this.state.clickedContentsIdx;
