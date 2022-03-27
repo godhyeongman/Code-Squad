@@ -3,13 +3,13 @@ class SearchInputModel {
     this.state = state;
   }
 
-  set autocompleteData(data) {
+  set autoCompleteData(data) {
     const incomeData = this.fitDataSize(data);
-    this.state.autocompleteData = incomeData;
+    this.state.autoCompleteData = incomeData;
   }
 
-  get autocompleteData() {
-    return this.state.autocompleteData;
+  get autoCompleteData() {
+    return this.state.autoCompleteData;
   }
 
   fitDataSize(data) {

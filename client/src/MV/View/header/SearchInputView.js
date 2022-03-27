@@ -1,36 +1,47 @@
 import { ToggleView } from "../AbstractToggleView.js";
 import * as domUtil from "../../util/domutil.js";
 
-function SearchInputView() {
+function SearchInputView(staticData) {
   ToggleView.apply(this, arguments);
-  this.toggleDom = domUtil$(".search--toggle--ul");
-  this.emptyHistoryContents = ["검색 결과 없음"];
+  this.staticData = staticData;
   this.searchHistoryData = new Set(
     JSON.parse(localStorage.getItem("localSearchHistory"))
   );
-
-  this.keyUpDownCount = { listLength: null, upDownCount: 0 };
 }
 
 SearchInputView.prototype = Object.create(ToggleView.prototype);
 
-SearchInputView.prototype.render = function (autoCompleteDom) {
-  // template생성및 dom조작으로 변경할것
-  const removeTarget = ".search--toggle--ul";
-  this.removePrevView(this.parentDom, removeTarget);
+SearchInputView.prototype.createToggleDOM = function ({
+  liContents,
+  ulClassName,
+  liClassName,
+}) {
+  if (this.isEmptyArr(liContents)) {
+    return;
+  } // 컨텐츠 없으면 return undefined
+
+  const DOM = document.createElement("ul");
+  DOM.classList.add(ulClassName);
+  DOM.innerHTML =
+    `${liContents.reduce((liHtml, contents) => {
+      liHtml += `<li class="${liClassName}">${contents}</li>`;
+      return liHtml;
+    }, "")}` +
+    /*html*/ `<button type="button" class="header__main--deleteHistoryBtn" data-button="removeHistory">기록 전체삭제</button>`;
+
+  return DOM;
+};
+
+SearchInputView.prototype.render = function (state) {
+  const removeTarget = this.staticData.toggleDom;
+  this.removePrevView(this.staticData.parentDom, removeTarget);
+  const autoCompleteDom = this.createToggleDOM(state);
   const removeBtn = autoCompleteDom.querySelector(
     '[data-button="removeHistory"]'
   );
-  this.parentDom.appendChild(autoCompleteDom);
-  this.addremoveHistoryEvent(removeBtn);
+  this.staticData.parentDom.appendChild(autoCompleteDom);
+  this.addHistoryBtnEvent(removeBtn);
 };
-
-SearchInputView.prototype.renderSearchHistory = function (searchHistoryDom) {
-  const removeTarget = ".search--toggle--ul";
-  this.removePrevView(this.parentDom, removeTarget);
-  // 인자DOM에 전체 검색 삭제 이벤트 추가 필요함 이부분은 View가 아닌 DOM 넘겨주는 단계에서 처리 예정
-  this.parentDom.appendChild(searchHistoryDom);
-}; // 중복
 
 SearchInputView.prototype.removePrevView = function (parentDom, targetName) {
   if (domUtil.target$(parentDom, targetName)) {
@@ -44,7 +55,7 @@ SearchInputView.prototype.hilight = function ({ prev, current, list }) {
   list[current].style.color = signatureColor;
 };
 SearchInputView.prototype.addHistoryBtnEvent = function (target) {
-  target.addEventListener("click", () => this.ClickRemoveBtn());
+  target.addEventListener("click", () => this.clickRemoveBtn());
 };
 
 SearchInputView.prototype.addInputEvent = function (dom) {

@@ -1,8 +1,12 @@
 import ObserverPublisher from "../../observer/Observer.js";
+import dataManager from "../../service/managers/header/DataManager.js";
+import historyManager from "../../service/managers/header/HistoryManager.js";
+import keyboardManager from "../../service/managers/header/KeyboardManager.js";
 
 class SearchInputEventHandler {
-  constructor(dataManager, historyManager, keyboardManager) {
-    const inputObserver = new ObserverPublisher();
+  constructor(targetView, observer) {
+    this.targetView = targetView;
+    this.inputObserver = observer;
     this.dataManager = new dataManager(inputObserver);
     this.historyManager = new historyManager(inputObserver);
     this.keyboardManager = new keyboardManager(inputObserver);
@@ -17,7 +21,7 @@ class SearchInputEventHandler {
 
   focusSearchZone() {
     const localdata = this.historyManager.getLocalHistory();
-    this.historyManager.observer.notify(localdata);
+    this.observer.notify(localdata);
   }
 
   async inputSearchZone() {
@@ -25,7 +29,7 @@ class SearchInputEventHandler {
     const autoCompleteData = await this.dataManager.getFetchData(
       autoCompleteUri
     );
-    this.dataManager.observer.notify(autoCompleteData);
+    this.observer.notify(autoCompleteData);
   }
 
   inputSpecialKey(event, length) {
@@ -36,13 +40,13 @@ class SearchInputEventHandler {
 
     if (key === "Enter") {
       event.preventDefault();
-      this.historyManager.observer.notifyNewHisory(value);
+      this.observer.notifyNewHisory(value);
       return;
     }
 
     if (key === "ArrowUp" || key === "ArrowDown") {
       const hilightIdx = this.keyboardManager.getIdxCount(key, length, count);
-      this.keyboardManager.observer.notifyHilightIdx(hilightIdx);
+      this.observer.notifyHilightIdx(hilightIdx);
     }
   }
 }

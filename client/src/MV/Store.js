@@ -10,8 +10,17 @@ class Store {
     this.nextState = model.getHTML(data);
   }
 
-  renderNextState(view) {
-    view.render(this.nextState);
+  reduceAutoComplete(incomeData) {
+    this.nextState = {
+      liContents: incomeData,
+      ulClassName: "search--toggle--ul",
+      liClassName: "search--toggle--li",
+    };
+    this.model.state.licontents = incomeData;
+  }
+
+  renderNextState() {
+    this.view.render(this.nextState);
   }
 }
 

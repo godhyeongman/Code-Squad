@@ -1,16 +1,20 @@
 class ObserverPublisher {
   constructor(state) {
     this.state = state;
-    this.observers = new Set();
+    this.observers = {
+      incomeHistory: new Set(),
+      incomeAutoCompleteData: new Set(),
+      incomeHilightIdx: new Set(),
+    };
   }
 
-  addSubscribe(subScriber) {
-    this.observers.add(subScriber);
+  addSubscribe(type, subScriber) {
+    this.observers[type].add(subScriber);
   }
 
-  notify(newState) {
+  notify(type, newState) {
     this.state = newState;
-    this.observers.forEach((fn) => fn(this.state));
+    this.observers[type].forEach((fn) => fn(this.state));
   }
 }
 
