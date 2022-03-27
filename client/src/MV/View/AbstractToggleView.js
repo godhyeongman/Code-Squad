@@ -1,6 +1,6 @@
-import * as domUtil from "../util/domutil.js";
+import * as domUtil from "../../util/domutil.js";
 function ToggleView(parentDom) {
-  this.parentDom = domUtil.$(parentDom);
+  // this.parentDom = domUtil.$(parentDom);
 }
 
 ToggleView.prototype.renderToggle = function (childDom) {

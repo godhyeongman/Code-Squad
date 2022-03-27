@@ -4,7 +4,7 @@ const defaultModelState = {
   autoCompleteData: [],
   MAX_SIZE: 10,
   toggle: {
-    licontents: [],
+    liContents: [],
     ulClassName: "search--toggle--ul",
     liClassName: "search--toggle--li",
     dataSet: "inputToggle",

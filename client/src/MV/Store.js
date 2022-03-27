@@ -11,17 +11,22 @@ class Store {
   }
 
   reduceAutoComplete(incomeData) {
-    this.nextState = {
-      liContents: incomeData,
-      ulClassName: "search--toggle--ul",
-      liClassName: "search--toggle--li",
-    };
-    this.model.state.licontents = incomeData;
+    this.model.autoCompleteData = incomeData;
+    const forRender = this.model.autoCompleteData;
+    this.model.state.toggle.liContents = forRender;
+    this.renderNextState();
   }
 
   renderNextState() {
-    this.view.render(this.nextState);
+    this.view.render(this.model.state.toggle);
   }
 }
 
 export default Store;
+
+// toggle: {
+//   licontents: [],
+//   ulClassName: "search--toggle--ul",
+//   liClassName: "search--toggle--li",
+//   dataSet: "inputToggle",
+// }

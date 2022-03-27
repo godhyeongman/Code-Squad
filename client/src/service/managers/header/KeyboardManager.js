@@ -1,6 +1,6 @@
 import * as domutil from "../../../util/domutil.js";
 
-class HeaderKeyboadManager {
+class KeyboadManager {
   constructor(observer) {
     this.observer = observer;
     this.arrowCount = -1;
@@ -63,4 +63,4 @@ class HeaderKeyboadManager {
   }
 }
 
-export { HeaderKeyboadManager };
+export { KeyboadManager };

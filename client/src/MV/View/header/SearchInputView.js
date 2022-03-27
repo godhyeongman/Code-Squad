@@ -1,5 +1,5 @@
 import { ToggleView } from "../AbstractToggleView.js";
-import * as domUtil from "../../util/domutil.js";
+import * as domUtil from "../../../util/domutil.js";
 
 function SearchInputView(staticData) {
   ToggleView.apply(this, arguments);
@@ -36,6 +36,7 @@ SearchInputView.prototype.render = function (state) {
   const removeTarget = this.staticData.toggleDom;
   this.removePrevView(this.staticData.parentDom, removeTarget);
   const autoCompleteDom = this.createToggleDOM(state);
+
   const removeBtn = autoCompleteDom.querySelector(
     '[data-button="removeHistory"]'
   );
@@ -67,16 +68,17 @@ SearchInputView.prototype.addFocusEvent = function (dom) {
 };
 
 SearchInputView.prototype.addSpecialKeyEvent = function (dom) {
-  dom.addEventListener("keydown", (event) =>
-    this.inputSpecialKey(event, this.toggleDom.length)
-  );
+  // dom.addEventListener("keydown", (event) =>
+  //   this.inputSpecialKey(event, this.toggleDom.length)
+  // );
 };
 
-SearchInputView.prototype.init = function ({ targetDom }) {
-  this.addInputEvent(targetDom);
-  this.addInputEvent(targetDom);
-  this.addFocusEvent(targetDom);
-  this.addSpecialKeyEvent(targetDom);
+SearchInputView.prototype.init = function () {
+  const { parentDom } = this.staticData;
+  this.addInputEvent(parentDom);
+  this.addInputEvent(parentDom);
+  this.addFocusEvent(parentDom);
+  this.addSpecialKeyEvent(parentDom);
 };
 
 export { SearchInputView };
