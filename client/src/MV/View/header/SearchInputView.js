@@ -33,8 +33,12 @@ SearchInputView.prototype.createToggleDOM = function ({
 };
 
 SearchInputView.prototype.render = function (state) {
-  const removeTarget = this.staticData.toggleDom;
+  const removeTarget = this.staticData.toggleClassName;
   this.removePrevView(this.staticData.parentDom, removeTarget);
+
+  if (this.isEmptyArr(state.liContents)) {
+    state.liContents = this.staticData.emptyContents;
+  }
   const autoCompleteDom = this.createToggleDOM(state);
 
   const removeBtn = autoCompleteDom.querySelector(
@@ -74,10 +78,10 @@ SearchInputView.prototype.addSpecialKeyEvent = function (dom) {
 };
 
 SearchInputView.prototype.init = function () {
-  const { parentDom } = this.staticData;
+  const { parentDom, inputDom } = this.staticData;
   this.addInputEvent(parentDom);
   this.addInputEvent(parentDom);
-  this.addFocusEvent(parentDom);
+  this.addFocusEvent(inputDom);
   this.addSpecialKeyEvent(parentDom);
 };
 

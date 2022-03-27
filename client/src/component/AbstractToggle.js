@@ -19,9 +19,7 @@ Toggle.prototype.getHTML = function () {
 };
 
 Toggle.prototype.isEmptyArr = function (arr) {
-  if (arr.length <= 0) {
-    return true;
-  }
+  return arr.length <= 0;
 };
 
 export { Toggle };

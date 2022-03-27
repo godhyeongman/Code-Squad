@@ -29,8 +29,6 @@ class SearchInputModel {
     this.state.hilightIdx.next += count;
     this.state.hilightIdx.prev = next - count;
   }
-
-  get;
 }
 
 class SearchMenuModel {

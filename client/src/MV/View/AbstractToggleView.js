@@ -17,9 +17,7 @@ ToggleView.prototype.renderToggle = function (childDom) {
 };
 
 ToggleView.prototype.isEmptyArr = function (arr) {
-  if (arr.length <= 0) {
-    return true;
-  }
+  return arr.length <= 0;
 };
 
 ToggleView.prototype.removePrevView = function (prevClassName) {

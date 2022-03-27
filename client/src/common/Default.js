@@ -12,9 +12,10 @@ const defaultModelState = {
 };
 
 const staticInputState = {
-  toggleDom: domUtil.$(".search--toggle--ul"),
+  toggleClassName: ".search--toggle--ul",
   emptyContents: ["검색 결과 없음"],
   parentDom: domUtil.$(".header__main--inputWrapper"),
+  inputDom: domUtil.$(".header__main--searchInput"),
 };
 
 export { defaultModelState, staticInputState };

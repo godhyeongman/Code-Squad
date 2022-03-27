@@ -2,18 +2,24 @@ class Store {
   constructor({ model, view }) {
     this.model = model;
     this.view = view;
-    this.prevState = null; // 사용하고 싶지만 고칠게 많아서 주말로 미룹니다.
+    this.prevState = null;
     this.nextState = null;
   }
 
+<<<<<<< HEAD
   reduceData(data, model) {
     this.nextState = model.getHTML(data);
+=======
+  reduceWholeHistory(data) {
+    this.model.state.toggle.liContents = [...data];
+    this.renderNextState();
+>>>>>>> b59e900 (change: 포커스 이벤트 재구현)
   }
 
   reduceAutoComplete(incomeData) {
     this.model.autoCompleteData = incomeData;
     const forRender = this.model.autoCompleteData;
-    this.model.state.toggle.liContents = forRender;
+    this.model.state.toggle.liContents = forRender; // nextState로 수정필요
     this.renderNextState();
   }
 

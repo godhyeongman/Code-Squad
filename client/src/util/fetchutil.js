@@ -10,7 +10,7 @@ async function fetchData(uri) {
     const jsonData = await data.json();
     return jsonData;
   } catch (e) {
-    console.err(`fetch에러 ${e.name} : ${e.message}`);
+    console.error(`fetch에러 ${e.name} : ${e.message}`);
   }
 }
 

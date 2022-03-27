@@ -19,10 +19,11 @@ class SearchInputEventHandler {
 
   focusSearchZone() {
     const localdata = this.historyManager.getLocalHistory();
-    this.observer.notify(localdata);
+    this.inputObserver.notify("incomeWholeSearchHistoryData", localdata);
   }
 
   async inputSearchZone({ target: { value } }) {
+    if (!value) return;
     const autoCompleteUri = `search/${value}`; // 추후 util폴더 constants로 추가할 예정
     const autoCompleteData = await this.dataManager.getFetchData(
       autoCompleteUri
@@ -43,13 +44,13 @@ class SearchInputEventHandler {
 
     if (key === "Enter") {
       event.preventDefault();
-      this.observer.notifyNewHisory(value);
+      this.inputObserver.notifyNewHisory(value);
       return;
     }
 
     if (key === "ArrowUp" || key === "ArrowDown") {
       const hilightIdx = this.keyboardManager.getIdxCount(key, length, count);
-      this.observer.notifyHilightIdx(hilightIdx);
+      this.inputObserver.notifyHilightIdx(hilightIdx);
     }
   }
 }

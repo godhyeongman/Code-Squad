@@ -9,6 +9,9 @@ class ObserverPublisher {
   }
 
   addSubscribe(type, subScriber) {
+    if (!this.observers[type]) {
+      this.observers[type] = new Set();
+    }
     this.observers[type].add(subScriber);
   }
 
