@@ -11,7 +11,7 @@ class Store {
     this.nextState = model.getHTML(data);
 =======
   reduceWholeHistory(data) {
-    this.model.state.toggle.liContents = [...data];
+    this.model.state.toggle.liContents = data;
     this.renderNextState();
 >>>>>>> b59e900 (change: 포커스 이벤트 재구현)
   }

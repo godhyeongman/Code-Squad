@@ -4,8 +4,8 @@ import { SearchInputModel } from "./MV/Model/SearchModel.js";
 import Store from "./MV/Store.js";
 import * as def from "./common/Default.js";
 import { SearchInputEventHandler } from "./EventHandler/header/SearchInputHandler.js";
-localStorage.setItem("localSearchHistory", "[]"); // 초기화용
 
+localStorage.setItem("localSearchHistory", "[]");
 const testObserver = new ObserverPublisher();
 const testView = new SearchInputView(def.staticInputState);
 const testModel = new SearchInputModel(def.defaultModelState);
@@ -21,6 +21,10 @@ testObserver.addSubscribe(
 );
 testObserver.addSubscribe(
   "incomeWholeSearchHistoryData",
+  testStore.reduceWholeHistory.bind(testStore)
+);
+testObserver.addSubscribe(
+  "incomeNewHistory",
   testStore.reduceWholeHistory.bind(testStore)
 );
 

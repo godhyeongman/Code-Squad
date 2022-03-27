@@ -44,7 +44,9 @@ class SearchInputEventHandler {
 
     if (key === "Enter") {
       event.preventDefault();
-      this.inputObserver.notifyNewHisory(value);
+      this.historyManager.addData2localStorage(value);
+      const newHistory = this.historyManager.getLocalHistory();
+      this.inputObserver.notify("incomeNewHistory", newHistory);
       return;
     }
 

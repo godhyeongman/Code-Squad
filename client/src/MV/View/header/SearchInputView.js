@@ -72,9 +72,9 @@ SearchInputView.prototype.addFocusEvent = function (dom) {
 };
 
 SearchInputView.prototype.addSpecialKeyEvent = function (dom) {
-  // dom.addEventListener("keydown", (event) =>
-  //   this.inputSpecialKey(event, this.toggleDom.length)
-  // );
+  dom.addEventListener("keydown", (event) =>
+    this.inputSpecialKey(event, this.staticData.toggleClassName)
+  );
 };
 
 SearchInputView.prototype.init = function () {

@@ -7,7 +7,8 @@ class HistoryManager {
   }
 
   getLocalHistory() {
-    return this.historyStorage;
+    const hitoryArr = [...this.historyStorage];
+    return hitoryArr;
   }
 
   addData2localStorage(data) {
@@ -20,7 +21,6 @@ class HistoryManager {
       "localSearchHistory",
       JSON.stringify([...this.historyStorage])
     );
-    return this.historyStorage;
   }
 
   fitHistorySize(data) {
