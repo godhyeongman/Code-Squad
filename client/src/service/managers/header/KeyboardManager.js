@@ -6,23 +6,13 @@ class KeyboadManager {
     this.arrowCount = -1;
   }
 
-  getIdxCount(key, length, count) {
+  getIdxCount(key) {
     if (key === "ArrowUp") {
-      count++;
+      return -1;
     }
 
     if (key === "ArrowDown") {
-      count++;
-    }
-
-    if (count < 0) {
-      count = length;
-      return count;
-    }
-
-    if (count > length) {
-      count = 0;
-      return count;
+      return 1;
     }
   }
 

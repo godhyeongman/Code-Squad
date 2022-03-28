@@ -12,6 +12,28 @@ class SearchInputModel {
     return this.state.autoCompleteData;
   }
 
+  set hilightCount(income) {
+    this.state.prevHilightIdx = this.state.hilightIdx;
+    this.state.hilightIdx += income;
+    if (this.state.hilightIdx > 0) {
+      this.state.hilightIdx = this.state.toggleLength;
+      return;
+    }
+
+    if (this.state.hilightIdx <= this.state.toggleList.length) {
+      this.state.hilightIdx = 0;
+      return;
+    }
+  }
+
+  set checkToggleList(list) {
+    if (this.state.toggleList !== list) {
+      this.state.toggleList = list;
+      this.state.hilightIdx = -1;
+      this.state.prevHilightIdx = null;
+    }
+  }
+
   fitDataSize(data) {
     const { MAX_SIZE } = this.state;
     if (data.length > MAX_SIZE) {

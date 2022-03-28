@@ -7,8 +7,7 @@ class HistoryManager {
   }
 
   getLocalHistory() {
-    const hitoryArr = [...this.historyStorage];
-    return hitoryArr;
+    return [...this.historyStorage];
   }
 
   addData2localStorage(data) {

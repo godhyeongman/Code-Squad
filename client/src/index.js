@@ -28,6 +28,11 @@ testObserver.addSubscribe(
   testStore.reduceWholeHistory.bind(testStore)
 );
 
+testObserver.addSubscribe(
+  "incomeHilightCount",
+  testStore.reduceHilightCount.bind(testStore)
+);
+
 // this.observers = {
 //   incomeHistory: new Set(),
 //   incomeAutoCompleteData: new Set(),

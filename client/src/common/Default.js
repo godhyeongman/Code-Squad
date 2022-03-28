@@ -1,8 +1,10 @@
 import * as domUtil from "../util/domutil.js";
 const defaultModelState = {
   hilightIdx: -1,
+  prevHilightIdx: null,
   autoCompleteData: [],
   MAX_SIZE: 10,
+  toggleList: null,
   toggle: {
     liContents: [],
     ulClassName: "search--toggle--ul",
@@ -13,6 +15,7 @@ const defaultModelState = {
 
 const staticInputState = {
   toggleClassName: ".search--toggle--ul",
+  toggleLiClassName: ".search--toggle--li",
   emptyContents: ["검색 결과 없음"],
   parentDom: domUtil.$(".header__main--inputWrapper"),
   inputDom: domUtil.$(".header__main--searchInput"),

@@ -4,9 +4,6 @@ import * as domUtil from "../../../util/domutil.js";
 function SearchInputView(staticData) {
   ToggleView.apply(this, arguments);
   this.staticData = staticData;
-  this.searchHistoryData = new Set(
-    JSON.parse(localStorage.getItem("localSearchHistory"))
-  );
 }
 
 SearchInputView.prototype = Object.create(ToggleView.prototype);
@@ -41,10 +38,10 @@ SearchInputView.prototype.render = function (state) {
   }
   const autoCompleteDom = this.createToggleDOM(state);
 
+  this.staticData.parentDom.appendChild(autoCompleteDom);
   const removeBtn = autoCompleteDom.querySelector(
     '[data-button="removeHistory"]'
   );
-  this.staticData.parentDom.appendChild(autoCompleteDom);
   this.addHistoryBtnEvent(removeBtn);
 };
 
@@ -59,6 +56,7 @@ SearchInputView.prototype.hilight = function ({ prev, current, list }) {
   list[prev].style.color = "black";
   list[current].style.color = signatureColor;
 };
+
 SearchInputView.prototype.addHistoryBtnEvent = function (target) {
   target.addEventListener("click", () => this.clickRemoveBtn());
 };
@@ -72,9 +70,10 @@ SearchInputView.prototype.addFocusEvent = function (dom) {
 };
 
 SearchInputView.prototype.addSpecialKeyEvent = function (dom) {
-  dom.addEventListener("keydown", (event) =>
-    this.inputSpecialKey(event, this.staticData.toggleClassName)
-  );
+  dom.addEventListener("keydown", (event) => {
+    const toggleList = domUtil.$All(this.staticData.toggleLiClassName);
+    this.inputSpecialKey({ event, toggleList });
+  });
 };
 
 SearchInputView.prototype.init = function () {

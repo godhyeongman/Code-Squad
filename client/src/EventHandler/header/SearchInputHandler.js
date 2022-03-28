@@ -36,7 +36,7 @@ class SearchInputEventHandler {
     this.inputObserver.notify("incomeAutoCompleteData", autoCompleteData);
   }
 
-  inputSpecialKey(event, length) {
+  inputSpecialKey({ event, toggleList }) {
     const {
       key,
       target: { value },
@@ -51,8 +51,11 @@ class SearchInputEventHandler {
     }
 
     if (key === "ArrowUp" || key === "ArrowDown") {
-      const hilightIdx = this.keyboardManager.getIdxCount(key, length, count);
-      this.inputObserver.notifyHilightIdx(hilightIdx);
+      const plusOrMinus = this.keyboardManager.getIdxCount(key);
+      this.inputObserver.notify("incomeHilightCount", {
+        plusOrMinus,
+        toggleList,
+      });
     }
   }
 }

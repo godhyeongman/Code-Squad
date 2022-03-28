@@ -23,16 +23,24 @@ class Store {
     this.renderNextState();
   }
 
+  reduceHilightCount({ plusOrMinus, toggleList }) {
+    this.model.checkToggleList = toggleList;
+    this.model.hilightCount = plusOrMinus;
+
+    const {
+      state: { newToggleList: toggleList, hilightIdx },
+    } = this.model;
+
+    this.renderHilight({ hilightIdx, newToggleList });
+  }
+
   renderNextState() {
     this.view.render(this.model.state.toggle);
+  }
+
+  renderHilight({ hilightIdx, newToggleList }) {
+    this.view.hilight(hilightIdx, newToggleList);
   }
 }
 
 export default Store;
-
-// toggle: {
-//   licontents: [],
-//   ulClassName: "search--toggle--ul",
-//   liClassName: "search--toggle--li",
-//   dataSet: "inputToggle",
-// }
