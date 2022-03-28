@@ -1,45 +1,44 @@
+import * as domUtil from "../util/domutil.js";
+import { defaultModelState } from "../common/Default.js";
+
 class Store {
   constructor({ model, view }) {
     this.model = model;
     this.view = view;
-    this.prevState = null;
     this.nextState = null;
   }
 
-<<<<<<< HEAD
-  reduceData(data, model) {
-    this.nextState = model.getHTML(data);
-=======
-  reduceWholeHistory(data) {
-    this.model.state.toggle.liContents = data;
-    this.renderNextState();
->>>>>>> b59e900 (change: 포커스 이벤트 재구현)
-  }
-
-  reduceAutoComplete(incomeData) {
-    this.model.autoCompleteData = incomeData;
-    const forRender = this.model.autoCompleteData;
-    this.model.state.toggle.liContents = forRender; // nextState로 수정필요
+  reduceLiContents(data) {
+    this.resetDefaultState();
+    this.model.liContents = data;
+    this.nextState = this.model.state;
     this.renderNextState();
   }
 
   reduceHilightCount({ plusOrMinus, toggleList }) {
-    this.model.checkToggleList = toggleList;
+    const toggleli = toggleList;
+    this.model.checkToggleList = toggleli;
     this.model.hilightCount = plusOrMinus;
 
-    const {
-      state: { newToggleList: toggleList, hilightIdx },
-    } = this.model;
+    this.nextState = this.model.state;
 
-    this.renderHilight({ hilightIdx, newToggleList });
+    if (this.nextState.prevHilightIdx < 0) {
+      this.nextState.prevHilightIdx = 0;
+    }
+
+    this.renderHilight(this.nextState);
+  }
+
+  resetDefaultState() {
+    this.model.state = defaultModelState;
   }
 
   renderNextState() {
-    this.view.render(this.model.state.toggle);
+    this.view.render(this.nextState.toggle);
   }
 
-  renderHilight({ hilightIdx, newToggleList }) {
-    this.view.hilight(hilightIdx, newToggleList);
+  renderHilight(hilightState) {
+    this.view.hilight(hilightState);
   }
 }
 

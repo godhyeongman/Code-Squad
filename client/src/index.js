@@ -5,7 +5,6 @@ import Store from "./MV/Store.js";
 import * as def from "./common/Default.js";
 import { SearchInputEventHandler } from "./EventHandler/header/SearchInputHandler.js";
 
-localStorage.setItem("localSearchHistory", "[]");
 const testObserver = new ObserverPublisher();
 const testView = new SearchInputView(def.staticInputState);
 const testModel = new SearchInputModel(def.defaultModelState);
@@ -17,24 +16,18 @@ testView.init();
 
 testObserver.addSubscribe(
   "incomeAutoCompleteData",
-  testStore.reduceAutoComplete.bind(testStore)
+  testStore.reduceLiContents.bind(testStore)
 );
 testObserver.addSubscribe(
   "incomeWholeSearchHistoryData",
-  testStore.reduceWholeHistory.bind(testStore)
+  testStore.reduceLiContents.bind(testStore)
 );
 testObserver.addSubscribe(
   "incomeNewHistory",
-  testStore.reduceWholeHistory.bind(testStore)
+  testStore.reduceLiContents.bind(testStore)
 );
 
 testObserver.addSubscribe(
   "incomeHilightCount",
   testStore.reduceHilightCount.bind(testStore)
 );
-
-// this.observers = {
-//   incomeHistory: new Set(),
-//   incomeAutoCompleteData: new Set(),
-//   incomeHilightIdx: new Set(),
-// };
