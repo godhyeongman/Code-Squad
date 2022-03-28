@@ -15,11 +15,8 @@ class HistoryManager {
       return;
     }
     this.historyStorage.add(data);
-
-    localStorage.setItem(
-      "localSearchHistory",
-      JSON.stringify([...this.historyStorage])
-    );
+    const fitData = this.fitHistorySize(this.historyStorage);
+    localStorage.setItem("localSearchHistory", JSON.stringify([...fitData]));
   }
 
   fitHistorySize(data) {

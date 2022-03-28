@@ -1,5 +1,5 @@
 import * as domUtil from "../util/domutil.js";
-import { defaultModelState } from "../common/Default.js";
+import { defaultSearchState } from "../common/Default.js";
 
 class Store {
   constructor({ model, view }) {
@@ -30,7 +30,7 @@ class Store {
   }
 
   resetDefaultState() {
-    this.model.state = defaultModelState;
+    this.model.state = defaultSearchState;
   }
 
   renderNextState() {

@@ -1,11 +1,7 @@
 class ObserverPublisher {
   constructor(state) {
     this.state = state;
-    this.observers = {
-      incomeHistory: new Set(),
-      incomeAutoCompleteData: new Set(),
-      incomeHilightIdx: new Set(),
-    };
+    this.observers = {};
   }
 
   addSubscribe(type, subScriber) {

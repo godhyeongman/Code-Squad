@@ -1,5 +1,5 @@
 import * as domUtil from "../util/domutil.js";
-const defaultModelState = {
+const defaultSearchState = {
   hilightIdx: -1,
   prevHilightIdx: null,
   autoCompleteData: [],
@@ -21,4 +21,21 @@ const staticInputState = {
   inputDom: domUtil.$(".header__main--searchInput"),
 };
 
-export { defaultModelState, staticInputState };
+const defaultMenuState = {
+  liContents: null,
+  current: null,
+};
+
+const staticMenuState = {
+  toggleClassName: ".search--menu--ul",
+  toggleLiClassName: ".search--menu--li",
+  emptyContents: "전체",
+  parentDom: domUtil.$(".header__main--inputMenuButton"),
+};
+
+export {
+  defaultSearchState,
+  staticInputState,
+  defaultMenuState,
+  staticMenuState,
+};
