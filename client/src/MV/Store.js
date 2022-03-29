@@ -15,35 +15,44 @@ class Store {
     this.searchView = new SearchInputView(searchViewDefaultData);
     this.menuModel = new SearchMenuModel(menuModelDefaultData);
     this.menuView = new SearchMenuView(menuViewDefaultData);
+    this.prevSearchState = this.searchModel.state;
+    this.prevMenuState = this.menuModel.state;
     this.nextSearchState = null;
     this.nextMenuState = null;
   }
 
   reduceLiContents(data) {
-    this.resetDefaultState();
-    this.searchModel.liContents = data;
-    this.nextSearchState = this.searchModel.state;
+    this.resetDefaultState(); // hilightCount 등 초기화를 위해
+    this.prevSearchState = this.searchModel.state;
+    const current = this.prevSearchState;
+    current.toggle.liContents = data;
+    this.nextSearchState = current;
+    this.searchModel.state = this.nextSearchState;
     this.rendernextSearchState();
   }
 
-  reduceHilightCount({ plusOrMinus, toggleList }) {
-    const toggleli = toggleList;
-    this.searchModel.checkToggleList = toggleli;
+  reduceHilightCount({ plusOrMinus, toggleList: toggleli }) {
+    this.searchModel.state.toggleList = toggleli;
     this.searchModel.hilightCount = plusOrMinus;
-
-    this.nextSearchState = this.searchModel.state;
-
-    if (this.nextSearchState.prevHilightIdx < 0) {
-      this.nextSearchState.prevHilightIdx = 0;
+    this.prevSearchState = this.searchModel.state;
+    const current = this.prevSearchState; // 복사로 바꾸면 더 좋을듯
+    if (current.prevHilightIdx < 0) {
+      current.prevHilightIdx = 0;
     }
+    this.nextSearchState = current;
+    this.searchModel.state = this.nextSearchState;
 
     this.renderHilight();
   }
 
   reduceMenuData(menuData) {
-    this.menuModel.state.liContents = menuData;
+    this.prevMenuState = this.menuModel.state;
+    const current = this.prevMenuState;
+    current.liContents = menuData;
+    this.nextMenuState = current;
+    this.menuModel.state = this.nextMenuState;
+
     this.menuView.render(this.menuModel.state);
-    // this.menunextSearchState.liContents = menuData;
   }
 
   rendernextSearchState() {

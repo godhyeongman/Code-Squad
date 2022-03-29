@@ -1,4 +1,4 @@
-import * as fetchUtil from "../../../util/fetchutil.js";
+import * as fetchUtil from "../../util/fetchutil.js";
 
 class FetchDataManager {
   constructor() {}

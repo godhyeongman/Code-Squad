@@ -1,4 +1,4 @@
-import * as domutil from "../../../util/domutil.js";
+import * as domutil from "../../util/domutil.js";
 
 class KeyboadManager {
   constructor() {

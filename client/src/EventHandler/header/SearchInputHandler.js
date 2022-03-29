@@ -1,6 +1,6 @@
-import { FetchDataManager } from "../../service/managers/header/DataManager.js";
-import { HistoryManager } from "../../service/managers/header/HistoryManager.js";
-import { KeyboadManager } from "../../service/managers/header/KeyboardManager.js";
+import { FetchDataManager } from "../managers/DataManager.js";
+import { HistoryManager } from "../managers/HistoryManager.js";
+import { KeyboadManager } from "../managers/KeyboardManager.js";
 
 class SearchInputEventHandler {
   constructor(store, observer) {

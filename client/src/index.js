@@ -8,7 +8,6 @@ import {
 } from "./MV/common/Default.js";
 import { SearchInputEventHandler } from "./EventHandler/header/SearchInputHandler.js";
 import { SearchMenuEventHandler } from "./EventHandler/header/SearchMenuHandler.js";
-// localStorage.setItem("localSearchHistory", "[]");
 const testObserver = new ObserverPublisher();
 const testStore = new Store({
   searchModelDefaultData: defaultSearchState,
@@ -16,9 +15,13 @@ const testStore = new Store({
   menuModelDefaultData: defaultMenuState,
   menuViewDefaultData: staticMenuState,
 });
-const testController = new SearchInputEventHandler(testStore, testObserver);
+const testSearchController = new SearchInputEventHandler(
+  testStore,
+  testObserver
+);
 const testMenutController = new SearchMenuEventHandler(testStore, testObserver);
-testController.init();
+
+testSearchController.init();
 testMenutController.init();
 
 testObserver.addSubscribe(

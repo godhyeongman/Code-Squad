@@ -1,5 +1,4 @@
 import { ToggleView } from "../AbstractToggleView.js";
-// import * as domUtil from "../../util/domutil.js";
 
 function SearchMenuView(staticData) {
   ToggleView.apply(this, arguments);
