@@ -1,5 +1,5 @@
 import { ToggleView } from "../AbstractToggleView.js";
-import * as domUtil from "../../util/domutil.js";
+// import * as domUtil from "../../util/domutil.js";
 
 function SearchMenuView(staticData) {
   ToggleView.apply(this, arguments);
@@ -11,15 +11,15 @@ SearchMenuView.prototype = Object.create(ToggleView.prototype);
 SearchMenuView.prototype.render = function (state) {
   const removeTarget = this.staticData.toggleClassName;
   if (this.removePrevView(this.staticData.parentDom, removeTarget)) {
-    this.state.liContents = this.staticData.emptyContents;
+    return;
   }
-  this.createToggleDom(state);
-  this.staticData.parentDom.appendChild(MenuDom);
+  const newMenuDom = this.createToggleDom(state);
+  this.staticData.parentDom.appendChild(newMenuDom);
 };
 
 SearchMenuView.prototype.removePrevView = function (parentDom, targetName) {
-  if (domUtil.target$(parentDom, targetName)) {
-    domUtil.target$(parentDom, targetName).remove();
+  if (parentDom.querySelector(targetName)) {
+    parentDom.querySelector(targetName).remove();
     return true;
   }
 };
@@ -43,8 +43,13 @@ SearchMenuView.prototype.createToggleDom = function ({
   return DOM;
 };
 
-SearchMenuView.prototype.addClickEvent = function () {
-  this.staticData.parentDom.addEventListener("click", () => this.getMenuData());
+SearchMenuView.prototype.addClickEvent = function (dom) {
+  dom.addEventListener("click", () => this.getMenuData());
+};
+
+SearchMenuView.prototype.init = function () {
+  const { parentDom } = this.staticData;
+  this.addClickEvent(parentDom);
 };
 
 export { SearchMenuView };

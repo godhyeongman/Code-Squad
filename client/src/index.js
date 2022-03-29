@@ -7,16 +7,19 @@ import {
   staticMenuState,
 } from "./MV/common/Default.js";
 import { SearchInputEventHandler } from "./EventHandler/header/SearchInputHandler.js";
-
+import { SearchMenuEventHandler } from "./EventHandler/header/SearchMenuHandler.js";
 // localStorage.setItem("localSearchHistory", "[]");
 const testObserver = new ObserverPublisher();
 const testStore = new Store({
-  modelDefault: defaultSearchState,
-  inputDefault: staticInputState,
+  searchModelDefaultData: defaultSearchState,
+  searchViewDefaultData: staticInputState,
+  menuModelDefaultData: defaultMenuState,
+  menuViewDefaultData: staticMenuState,
 });
 const testController = new SearchInputEventHandler(testStore, testObserver);
-
+const testMenutController = new SearchMenuEventHandler(testStore, testObserver);
 testController.init();
+testMenutController.init();
 
 testObserver.addSubscribe(
   "incomeAutoCompleteData",
@@ -34,4 +37,9 @@ testObserver.addSubscribe(
 testObserver.addSubscribe(
   "incomeHilightCount",
   testStore.reduceHilightCount.bind(testStore)
+);
+
+testObserver.addSubscribe(
+  "incomeMenuData",
+  testStore.reduceMenuData.bind(testStore)
 );

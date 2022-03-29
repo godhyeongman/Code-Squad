@@ -48,7 +48,7 @@ SearchInputView.prototype.render = function (state) {
 SearchInputView.prototype.removePrevView = function (parentDom, targetName) {
   if (domUtil.target$(parentDom, targetName)) {
     domUtil.target$(parentDom, targetName).remove();
-  } // 추후 데이터 어트리뷰트로 검증후 삭제하는 방법으로 변경예정
+  }
 };
 
 SearchInputView.prototype.hilight = function ({
@@ -56,7 +56,6 @@ SearchInputView.prototype.hilight = function ({
   hilightIdx: current,
   toggleList: list,
 }) {
-  console.log(prev, current, list.length);
   const signatureColor = "#4285f4";
   list[prev].style.color = "black";
   list[current].style.color = signatureColor;

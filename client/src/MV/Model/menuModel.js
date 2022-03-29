@@ -1,4 +1,4 @@
-class MenuModel {
+class SearchMenuModel {
   constructor(state) {
     this.state = state;
   }
@@ -8,4 +8,4 @@ class MenuModel {
   }
 }
 
-export { MenuModel };
+export { SearchMenuModel };

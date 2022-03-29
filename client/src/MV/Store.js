@@ -1,20 +1,29 @@
-import * as domUtil from "../util/domutil.js";
 import { defaultSearchState } from "./common/Default.js";
 import { SearchInputView } from "./View/header/SearchInputView.js";
 import { SearchInputModel } from "./Model/SearchModel.js";
+import { SearchMenuView } from "./View/header/SearchMenuView.js";
+import { SearchMenuModel } from "./Model/menuModel.js";
 
 class Store {
-  constructor({ modelDefault, inputDefault }) {
-    this.searchModel = new SearchInputModel(modelDefault);
-    this.searchView = new SearchInputView(inputDefault);
-    this.nextState = null;
+  constructor({
+    searchModelDefaultData,
+    searchViewDefaultData,
+    menuModelDefaultData,
+    menuViewDefaultData,
+  }) {
+    this.searchModel = new SearchInputModel(searchModelDefaultData);
+    this.searchView = new SearchInputView(searchViewDefaultData);
+    this.menuModel = new SearchMenuModel(menuModelDefaultData);
+    this.menuView = new SearchMenuView(menuViewDefaultData);
+    this.nextSearchState = null;
+    this.nextMenuState = null;
   }
 
   reduceLiContents(data) {
     this.resetDefaultState();
     this.searchModel.liContents = data;
-    this.nextState = this.searchModel.state;
-    this.renderNextState();
+    this.nextSearchState = this.searchModel.state;
+    this.rendernextSearchState();
   }
 
   reduceHilightCount({ plusOrMinus, toggleList }) {
@@ -22,25 +31,35 @@ class Store {
     this.searchModel.checkToggleList = toggleli;
     this.searchModel.hilightCount = plusOrMinus;
 
-    this.nextState = this.searchModel.state;
+    this.nextSearchState = this.searchModel.state;
 
-    if (this.nextState.prevHilightIdx < 0) {
-      this.nextState.prevHilightIdx = 0;
+    if (this.nextSearchState.prevHilightIdx < 0) {
+      this.nextSearchState.prevHilightIdx = 0;
     }
 
-    this.renderHilight(this.nextState);
+    this.renderHilight();
+  }
+
+  reduceMenuData(menuData) {
+    this.menuModel.state.liContents = menuData;
+    this.menuView.render(this.menuModel.state);
+    // this.menunextSearchState.liContents = menuData;
+  }
+
+  rendernextSearchState() {
+    this.searchView.render(this.nextSearchState.toggle);
+  }
+
+  renderHilight() {
+    this.searchView.hilight(this.nextSearchState);
+  }
+
+  renderMenu() {
+    this.menuView.render(this.nextMenuState);
   }
 
   resetDefaultState() {
     this.searchModel.state = defaultSearchState;
-  }
-
-  renderNextState() {
-    this.searchView.render(this.nextState.toggle);
-  }
-
-  renderHilight(hilightState) {
-    this.searchView.hilight(hilightState);
   }
 }
 

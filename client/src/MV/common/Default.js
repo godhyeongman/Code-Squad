@@ -24,6 +24,8 @@ const staticInputState = {
 const defaultMenuState = {
   liContents: null,
   current: null,
+  ulClassName: "search--menu--ul",
+  liClassName: "search--menu--li",
 };
 
 const staticMenuState = {

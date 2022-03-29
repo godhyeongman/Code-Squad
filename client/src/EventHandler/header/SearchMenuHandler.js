@@ -1,30 +1,20 @@
+import { fetchData } from "../../util/fetchutil.js";
+
 class SearchMenuEventHandler {
-  constructor(dom, router, etcMovement) {
-    this.targetDom = dom;
-    this.etcMovement = etcMovement;
-    this.router = router;
+  constructor(store, observer) {
+    this.store = store;
+    this.menuObserver = observer;
   }
-
   init() {
-    this.addClickEvent();
-    this.addClickOutEvent();
+    this.store.menuView.getMenuData = this.getMenuData.bind(this);
+    this.store.menuView.init();
   }
 
-  addClickEvent() {
-    this.targetDom.addEventListener("click", () => this.onClickEvent());
-  }
-
-  addClickOutEvent() {
-    document.addEventListener("click", (event) => this.onClickOutEvent(event));
-  }
-
-  onClickEvent() {
+  async getMenuData() {
     const uri = "search/menu/toggle";
-    this.router.getMenuData(uri);
-  }
+    const fetchedData = await fetchData(uri);
 
-  onClickOutEvent(event) {
-    this.etcMovement.removeMenu(event);
+    this.menuObserver.notify("incomeMenuData", fetchedData);
   }
 }
 
