@@ -3,8 +3,8 @@ import { HistoryManager } from "../../service/managers/header/HistoryManager.js"
 import { KeyboadManager } from "../../service/managers/header/KeyboardManager.js";
 
 class SearchInputEventHandler {
-  constructor(targetView, observer) {
-    this.targetView = targetView;
+  constructor(store, observer) {
+    this.store = store;
     this.inputObserver = observer;
     this.dataManager = new FetchDataManager();
     this.historyManager = new HistoryManager();
@@ -12,9 +12,10 @@ class SearchInputEventHandler {
   }
 
   init() {
-    this.targetView.focusSearchZone = this.focusSearchZone.bind(this);
-    this.targetView.inputSearchZone = this.inputSearchZone.bind(this);
-    this.targetView.inputSpecialKey = this.inputSpecialKey.bind(this);
+    this.store.searchView.focusSearchZone = this.focusSearchZone.bind(this);
+    this.store.searchView.inputSearchZone = this.inputSearchZone.bind(this);
+    this.store.searchView.inputSpecialKey = this.inputSpecialKey.bind(this);
+    this.store.searchView.init();
   }
 
   focusSearchZone() {

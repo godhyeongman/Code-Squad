@@ -14,7 +14,7 @@ SearchMenuView.prototype.render = function (state) {
     this.state.liContents = this.staticData.emptyContents;
   }
   this.createToggleDom(state);
-  this.parentDom.appendChild(MenuDom);
+  this.staticData.parentDom.appendChild(MenuDom);
 };
 
 SearchMenuView.prototype.removePrevView = function (parentDom, targetName) {
@@ -43,19 +43,8 @@ SearchMenuView.prototype.createToggleDom = function ({
   return DOM;
 };
 
-export { SearchMenuView };
-SearchInputView.prototype.render = function (state) {
-  const removeTarget = this.staticData.toggleClassName;
-  this.removePrevView(this.staticData.parentDom, removeTarget);
-
-  if (this.isEmptyArr(state.liContents)) {
-    state.liContents = this.staticData.emptyContents;
-  }
-  const autoCompleteDom = this.createToggleDOM(state);
-
-  this.staticData.parentDom.appendChild(autoCompleteDom);
-  const removeBtn = autoCompleteDom.querySelector(
-    '[data-button="removeHistory"]'
-  );
-  this.addHistoryBtnEvent(removeBtn);
+SearchMenuView.prototype.addClickEvent = function () {
+  this.staticData.parentDom.addEventListener("click", () => this.getMenuData());
 };
+
+export { SearchMenuView };

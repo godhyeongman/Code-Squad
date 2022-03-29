@@ -1,9 +1,7 @@
 import * as fetchUtil from "../../../util/fetchutil.js";
 
 class FetchDataManager {
-  constructor(observer) {
-    this.observer = observer;
-  }
+  constructor() {}
 
   async getFetchData(uri) {
     const fetchedData = fetchUtil.fetchData(uri);

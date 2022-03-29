@@ -1,4 +1,4 @@
-import * as domUtil from "../util/domutil.js";
+import * as domUtil from "../../util/domutil.js";
 const defaultSearchState = {
   hilightIdx: -1,
   prevHilightIdx: null,

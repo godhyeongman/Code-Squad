@@ -1,8 +1,7 @@
 import * as domutil from "../../../util/domutil.js";
 
 class KeyboadManager {
-  constructor(observer) {
-    this.observer = observer;
+  constructor() {
     this.arrowCount = -1;
   }
 

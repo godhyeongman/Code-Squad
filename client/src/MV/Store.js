@@ -1,26 +1,28 @@
 import * as domUtil from "../util/domutil.js";
-import { defaultSearchState } from "../common/Default.js";
+import { defaultSearchState } from "./common/Default.js";
+import { SearchInputView } from "./View/header/SearchInputView.js";
+import { SearchInputModel } from "./Model/SearchModel.js";
 
 class Store {
-  constructor({ model, view }) {
-    this.model = model;
-    this.view = view;
+  constructor({ modelDefault, inputDefault }) {
+    this.searchModel = new SearchInputModel(modelDefault);
+    this.searchView = new SearchInputView(inputDefault);
     this.nextState = null;
   }
 
   reduceLiContents(data) {
     this.resetDefaultState();
-    this.model.liContents = data;
-    this.nextState = this.model.state;
+    this.searchModel.liContents = data;
+    this.nextState = this.searchModel.state;
     this.renderNextState();
   }
 
   reduceHilightCount({ plusOrMinus, toggleList }) {
     const toggleli = toggleList;
-    this.model.checkToggleList = toggleli;
-    this.model.hilightCount = plusOrMinus;
+    this.searchModel.checkToggleList = toggleli;
+    this.searchModel.hilightCount = plusOrMinus;
 
-    this.nextState = this.model.state;
+    this.nextState = this.searchModel.state;
 
     if (this.nextState.prevHilightIdx < 0) {
       this.nextState.prevHilightIdx = 0;
@@ -30,15 +32,15 @@ class Store {
   }
 
   resetDefaultState() {
-    this.model.state = defaultSearchState;
+    this.searchModel.state = defaultSearchState;
   }
 
   renderNextState() {
-    this.view.render(this.nextState.toggle);
+    this.searchView.render(this.nextState.toggle);
   }
 
   renderHilight(hilightState) {
-    this.view.hilight(hilightState);
+    this.searchView.hilight(hilightState);
   }
 }
 

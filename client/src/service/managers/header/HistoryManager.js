@@ -1,9 +1,8 @@
 class HistoryManager {
-  constructor(observer) {
+  constructor() {
     this.historyStorage = new Set(
       JSON.parse(localStorage.getItem("localSearchHistory")) // 로컬스토리지 볐다 할수있음
     );
-    this.observer = observer;
   }
 
   getLocalHistory() {
