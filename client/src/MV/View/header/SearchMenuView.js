@@ -1,4 +1,5 @@
 import { ToggleView } from "../AbstractToggleView.js";
+import * as domUtil from "../../../util/domutil.js";
 
 function SearchMenuView(staticData) {
   ToggleView.apply(this, arguments);
@@ -46,9 +47,16 @@ SearchMenuView.prototype.addClickEvent = function (dom) {
   dom.addEventListener("click", () => this.getMenuData());
 };
 
+SearchMenuView.prototype.addClickoutEvent = function (dom) {
+  dom.addEventListener("click", (event) => this.removeMenu(event));
+};
+
 SearchMenuView.prototype.init = function () {
   const { parentDom } = this.staticData;
+  const vanillaBody = domUtil.$("body");
+
   this.addClickEvent(parentDom);
+  this.addClickoutEvent(vanillaBody);
 };
 
 export { SearchMenuView };
