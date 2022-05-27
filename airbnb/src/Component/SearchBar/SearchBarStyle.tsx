@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-interface Test {
+interface SearchBarItem {
   width: number;
 }
 
@@ -15,7 +15,8 @@ export const searchBarWrapper = styled.div`
   padding: 16px;
 `;
 
-export const searchBarItem = styled.div<Test>`
+// 스타일드 컴포넌트 호출시 제네릭 타입으로 SearchBarItems를 지정해 받는 인자타입 선언
+export const searchBarItem = styled.div<SearchBarItem>`
   margin: 0 24px;
   width: ${({ width }) => width}px;
 `;
