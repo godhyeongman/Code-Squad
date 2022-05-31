@@ -3,6 +3,15 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        moduleDirectory: ['node_modules', '@types'],
+      },
+      typescript: {},
+    },
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -11,8 +20,9 @@ module.exports = {
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.eslint.json'],
+    project: './tsconfig.json',
   },
+  ignorePatterns: ['mockServiceWorker.js'],
   plugins: ['react', '@typescript-eslint'],
   extends: [
     'airbnb',
@@ -26,13 +36,16 @@ module.exports = {
   ],
 
   rules: {
-    'react/jsx-uses-react': 'error',
-    'react/jsx-uses-vars': 'error',
+    'consistent-return': 'off',
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'global-require': 'off',
     'react/react-in-jsx-scope': 'off',
     'import/prefer-default-export': 'off',
-    'linebreak-style': 'off',
-    '@typescript-eslint/no-var-requires': 'off',
+    'import/no-unresolved': 'off',
     'react/jsx-no-constructed-context-values': 'off',
+    'import/extensions': 'off',
+    'import/namespace': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
     'react/jsx-filename-extension': [
       2,
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
@@ -44,12 +57,5 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
-  },
-  settings: {
-    'import/resolver': {
-      node: {
-        paths: ['src', '.ts', '.tsx', '.native.js'],
-      },
-    },
   },
 };

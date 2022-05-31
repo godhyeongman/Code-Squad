@@ -1,9 +1,10 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
+    // "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     // 엄격모드 관련 설정 추가
@@ -16,7 +17,6 @@
     "noImplicitThis": true,
     // any 타입 금지
     "noImplicitAny": true,
-
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
@@ -27,7 +27,6 @@
     "jsx": "react-jsx"
   },
 
-  "include": ["src", ".eslintrc.js", "craco.config.js"],
-  "exclude": ["node_modules", "dist"],
-  "extends": "./tsconfig.paths.json"
+  "include": ["src", "craco.config.js", ".eslintrc.js"],
+  "exclude": ["node_modules", "dist"]
 }
