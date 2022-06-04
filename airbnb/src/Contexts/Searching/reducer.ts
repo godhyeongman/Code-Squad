@@ -1,8 +1,9 @@
 import * as TYPE from './types';
 
 export const calendarInitialState: TYPE.CalenderState = {
-  startDate: new Date(),
+  startDate: null,
   endDate: null,
+  displaySchedule: false,
 };
 
 export const priceInitialState: TYPE.PriceState = {
@@ -29,8 +30,14 @@ export const calenderReducer = (
     case 'SET_END_DATE':
       return { ...state, endDate: action.date };
 
+    case 'SET_DISPLAY':
+      return { ...state, displaySchedule: !state.displaySchedule };
+
     case 'RESET':
-      return { ...calendarInitialState };
+      return {
+        ...calendarInitialState,
+        displaySchedule: state.displaySchedule,
+      };
     // no default
   }
 };

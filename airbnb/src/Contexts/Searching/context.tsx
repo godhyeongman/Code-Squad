@@ -8,14 +8,14 @@ import {
   customersInitialState,
 } from './reducer';
 import * as TYPE from './types';
+import * as ACTION from './Action';
 
-export const SearchingContext = React.createContext<TYPE.SearchingContextState>(
-  {
+export const SearchingContext =
+  React.createContext<TYPE.SearchingContextState | null>({
     calendar: calendarInitialState,
     price: priceInitialState,
     customers: customersInitialState,
-  },
-);
+  });
 
 // TODO: Dispatch 함수 해결해야할것
 export const SearchingDispatchContext =
@@ -42,7 +42,15 @@ export function SearchingProvider({
   return (
     <SearchingContext.Provider value={{ calendar, price, customers }}>
       <SearchingDispatchContext.Provider
-        value={{ calendarDispatch, priceDispatch, customersDispatch }}
+        value={{
+          calendarDispatch,
+          priceDispatch,
+          customersDispatch,
+          getStartDateAction: ACTION.getStartDateAction,
+          getEndDateAction: ACTION.getEndDateAction,
+          getScheduleDisplayAction: ACTION.getScheduleDisplayAction,
+          getResetScheduleAction: ACTION.getResetScheduleAction,
+        }}
       >
         {children}
       </SearchingDispatchContext.Provider>
