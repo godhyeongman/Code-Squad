@@ -23,8 +23,8 @@ export const priceInitialState: TYPE.PriceState = {
 
 export const customersInitialState: TYPE.CustomerState = {
   adultCount: 0,
-  kidsCount: 0,
-  smallChildCount: 0,
+  childrenCount: 0,
+  infantsCount: 0,
 };
 
 /* eslint-disable consistent-return */
@@ -77,6 +77,26 @@ export const customersReducer = (
   switch (action.type) {
     case 'SET_ADULT_COUNT':
       return { ...state, adultCount: action.income };
+    case 'SET_CHILDREN_COUNT':
+      return {
+        ...state,
+        childrenCount: action.income,
+        adultCount:
+          state.childrenCount === 0 && state.adultCount === 0
+            ? 1
+            : state.adultCount,
+      };
+    case 'SET_INFANTS_COUNT':
+      return {
+        ...state,
+        infantsCount: action.income,
+        adultCount:
+          state.infantsCount === 0 && state.adultCount === 0
+            ? 1
+            : state.adultCount,
+      };
+    case 'RESET':
+      return customersInitialState;
     default:
       throw new Error(`잘못된 액션입니다. actionType: ${action}`);
   }
