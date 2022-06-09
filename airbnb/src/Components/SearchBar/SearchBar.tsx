@@ -9,6 +9,7 @@ import {
 } from '@/Contexts/Searching';
 import { ModalStateContext, ModalDispatchContext } from '@/Contexts/Modal';
 import { PriceGraph } from '@/Components/PriceGraph';
+import { CustomerCounter } from '@/Components/CustomerCounter';
 import { Modal } from '../Modal/Modal';
 import * as S from './SearchBar.style';
 import { SearchBarItem } from './Item';
@@ -18,11 +19,25 @@ type DateDispatch = (
   action: (date: Date) => CalenderAction,
 ) => (date: Date) => void;
 
+const formatCustomerCount = (
+  adultCount: number,
+  childrenCount: number,
+  infantsCount: number,
+) =>
+  !adultCount
+    ? '게스트 추가'
+    : `게스트 ${adultCount + childrenCount}명${
+        !infantsCount ? '' : `, 유아 ${infantsCount}명`
+      }`;
+
 export function SearchBar() {
+  const { customersDispatch } = useNullGuard(SearchingDispatchContext);
   const {
     calendar: { startDate, endDate },
     price: { minimumPrice, maximuPrice },
+    customers: { adultCount, childrenCount, infantsCount },
   } = useNullGuard(SearchingContext);
+
   const {
     getStartDateAction,
     getEndDateAction,
@@ -46,12 +61,13 @@ export function SearchBar() {
       />
     ),
     가격: <PriceGraph />,
-    사람: '사람',
+    사람: <CustomerCounter />,
   };
 
   const [currentKey, setCurrentKey] = useState<'schedule' | '가격' | '사람'>(
     'schedule',
   );
+
   return (
     <S.searchBarWrapper>
       {isShowModal && (
@@ -114,7 +130,7 @@ export function SearchBar() {
       <S.line />
       <SearchBarItem
         title="인원"
-        value="내용"
+        value={formatCustomerCount(adultCount, childrenCount, infantsCount)}
         width={144}
         onClick={e => {
           e.stopPropagation();
@@ -122,7 +138,13 @@ export function SearchBar() {
           setCurrentKey('사람');
         }}
       />
-      <S.CloseButton type="button">
+      <S.CloseButton
+        type="button"
+        onClick={e => {
+          e.stopPropagation();
+          customersDispatch({ type: 'RESET' });
+        }}
+      >
         <CloseRoundedIcon sx={{ fontSize: '13px' }} />
       </S.CloseButton>
       <SearchButton />
