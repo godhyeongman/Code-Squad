@@ -55,3 +55,21 @@ export const HigherPriceRangeSliderButton = styled.button`
   right: 0;
   transform: translate(50%, -50%);
 `;
+
+export const Title = styled.h4`
+  font-weight: 700;
+  margin-bottom: 16px;
+`;
+
+export const Price = styled.span`
+  display: block;
+  font-weight: 400;
+  font-size: 18px;
+  color: #333333;
+`;
+
+export const AveragePrice = styled.span`
+  display: block;
+  font-size: 14px;
+  color: #828282;
+`;

@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import PauseCircleOutlineRoundedIcon from '@mui/icons-material/PauseCircleOutlineRounded';
 import * as S from './priceGraph.style';
 
 const CANVAS_WIDTH = 365;
@@ -153,6 +154,21 @@ export function PriceGraph() {
 
   return (
     <>
+      <S.Title>가격 범위</S.Title>
+      <S.Price>
+        {Math.floor(
+          Math.min(...ACCOMODATION_DATAS) * ((100 + lowerPriceRange) * 0.01),
+        )}{' '}
+        -{' '}
+        {Math.floor(
+          Math.max(...ACCOMODATION_DATAS) * (higherPriceRange * 0.01),
+        )}
+      </S.Price>
+      <S.AveragePrice>
+        평균 1박 요금은{' '}
+        {Math.min(...ACCOMODATION_DATAS) + Math.max(...ACCOMODATION_DATAS) / 2}
+        원 입니다.
+      </S.AveragePrice>
       <S.Canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
       <S.RangeSliderWrapper>
         <S.Range
