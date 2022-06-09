@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
-import PauseCircleOutlineRoundedIcon from '@mui/icons-material/PauseCircleOutlineRounded';
+import { useNullGuard } from '@/Hooks/useNullguard';
+import { SearchingDispatchContext } from '@/Contexts/Searching';
 import * as S from './priceGraph.style';
 
 const CANVAS_WIDTH = 365;
@@ -113,6 +114,7 @@ export function PriceGraph() {
   const lowerButtonRef = useRef<HTMLButtonElement>(null);
   const [lowerPriceRange, setLowerPriceRange] = useState(0);
   const [higherPriceRange, setHigherPriceRange] = useState(100);
+  const { priceDispatch } = useNullGuard(SearchingDispatchContext);
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d');
@@ -137,6 +139,12 @@ export function PriceGraph() {
 
     e.target.value = String(val); // 투명슬라이더 버튼 위치 고정
     setLowerPriceRange(val);
+    priceDispatch({
+      type: 'SET_MINIMUM_PRICE',
+      income: Math.floor(
+        Math.min(...ACCOMODATION_DATAS) * ((100 + val) * 0.01),
+      ),
+    });
   }
 
   function handleHigherPriceButton(e: React.ChangeEvent<HTMLInputElement>) {
@@ -150,6 +158,10 @@ export function PriceGraph() {
     }
     e.target.value = String(val);
     setHigherPriceRange(val);
+    priceDispatch({
+      type: 'SET_MAXIMUM_PRICE',
+      income: Math.floor(Math.max(...ACCOMODATION_DATAS) * (val * 0.01)),
+    });
   }
 
   return (

@@ -21,6 +21,7 @@ type DateDispatch = (
 export function SearchBar() {
   const {
     calendar: { startDate, endDate },
+    price: { minimumPrice, maximuPrice },
   } = useNullGuard(SearchingContext);
   const {
     getStartDateAction,
@@ -99,7 +100,7 @@ export function SearchBar() {
       <S.line />
       <SearchBarItem
         title="요금"
-        value="내용"
+        value={`${minimumPrice} ~ ${maximuPrice}`}
         width={208}
         onClick={e => {
           e.stopPropagation();
