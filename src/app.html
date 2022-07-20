@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todo-list</title>
+  </head>
+
+  <body>
+    <header>
+      <h1 class="header__title">TO-DO LIST📝</h1>
+      <span
+        class="header__menu-btn cursor-pointer"
+        onclick="document.getElementById('side-menu-bar').classList.remove('hide')"
+        ><svg
+          width="32"
+          height="20"
+          viewBox="0 0 17 11"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M0 1V0H17V1H0ZM17 5V6H0V5H17ZM0 10H17V11H0V10Z" fill="black" />
+        </svg>
+      </span>
+    </header>
+
+    <main>
+      <section class="task-column__wrapper">
+        <!-- 해야할 일 -->
+        <div class="task-column" id="todo">
+          <div class="task-column__header">
+            <div class="task-column__header__title">
+              <span class="column__title">해야할 일</span><span class="column__card-cnt">0</span>
+            </div>
+            <div class="task-column__header__btn">
+              <span class="add-btn cursor-pointer"
+                ><svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.105709 7.53033L0.105709 6.46967H6.46967V0.105713H7.53033V6.46967H13.8943V7.53033H7.53033V13.8943H6.46967V7.53033H0.105709Z"
+                    fill="gray"
+                  />
+                </svg> </span
+              ><span class="delete-btn cursor-pointer"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 11.25L0.75 10.5L5.25 6L0.75 1.5L1.5 0.75L6 5.25L10.5 0.75L11.25 1.5L6.75 6L11.25 10.5L10.5 11.25L6 6.75L1.5 11.25Z"
+                    fill="gray"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 하고 있는 일 -->
+        <div class="task-column" id="doing">
+          <div class="task-column__header">
+            <div class="task-column__header__title">
+              <span class="column__title">하고 있는 일</span
+              ><span class="column__card-cnt">0</span>
+            </div>
+            <div class="task-column__header__btn">
+              <span class="add-btn cursor-pointer"
+                ><svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.105709 7.53033L0.105709 6.46967H6.46967V0.105713H7.53033V6.46967H13.8943V7.53033H7.53033V13.8943H6.46967V7.53033H0.105709Z"
+                    fill="gray"
+                  />
+                </svg> </span
+              ><span class="delete-btn cursor-pointer"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 11.25L0.75 10.5L5.25 6L0.75 1.5L1.5 0.75L6 5.25L10.5 0.75L11.25 1.5L6.75 6L11.25 10.5L10.5 11.25L6 6.75L1.5 11.25Z"
+                    fill="gray"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+          <!-- <div class="task-card registered delete-active">
+            <div class="task-card__header">
+              <div
+                class="task-card__title font-black"
+                contenteditable="false"
+                placeholder="제목을 입력하세요"
+              >
+                Git Branch 공부하기
+              </div>
+              <span class="delete-btn cursor-pointer"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 11.25L0.75 10.5L5.25 6L0.75 1.5L1.5 0.75L6 5.25L10.5 0.75L11.25 1.5L6.75 6L11.25 10.5L10.5 11.25L6 6.75L1.5 11.25Z"
+                    fill="gray"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div
+              class="task-card__content font-black"
+              contenteditable="false"
+              placeholder="내용을 입력하세요"
+            >
+              merge vs rebase
+            </div>
+            <div class="task-card__btns">
+              <button class="task-card__cancle-btn hidden">취소</button>
+              <button class="task-card__register-btn hidden">등록</button>
+            </div>
+            <div class="task-card__footer">author by <span id="author">web</span></div>
+          </div> -->
+        </div>
+
+        <!-- 완료한 일 -->
+        <div class="task-column" id="done">
+          <div class="task-column__header">
+            <div class="task-column__header__title">
+              <span class="column__title">완료한 일</span><span class="column__card-cnt">0</span>
+            </div>
+            <div class="task-column__header__btn">
+              <span class="add-btn cursor-pointer"
+                ><svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.105709 7.53033L0.105709 6.46967H6.46967V0.105713H7.53033V6.46967H13.8943V7.53033H7.53033V13.8943H6.46967V7.53033H0.105709Z"
+                    fill="gray"
+                  />
+                </svg> </span
+              ><span class="delete-btn cursor-pointer"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 11.25L0.75 10.5L5.25 6L0.75 1.5L1.5 0.75L6 5.25L10.5 0.75L11.25 1.5L6.75 6L11.25 10.5L10.5 11.25L6 6.75L1.5 11.25Z"
+                    fill="gray"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+          <!-- <div class="task-card registered move-active">
+            <div class="task-card__header">
+              <div
+                class="task-card__title font-black"
+                contenteditable="false"
+                placeholder="제목을 입력하세요"
+              >
+                GitHub 공부하기
+              </div>
+              <span class="delete-btn cursor-pointer"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 11.25L0.75 10.5L5.25 6L0.75 1.5L1.5 0.75L6 5.25L10.5 0.75L11.25 1.5L6.75 6L11.25 10.5L10.5 11.25L6 6.75L1.5 11.25Z"
+                    fill="gray"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div
+              class="task-card__content font-black"
+              contenteditable="false"
+              placeholder="내용을 입력하세요"
+            >
+              add, commit, push
+            </div>
+            <div class="task-card__btns">
+              <button class="task-card__cancle-btn hidden">취소</button>
+              <button class="task-card__register-btn hidden">등록</button>
+            </div>
+            <div class="task-card__footer">author by <span id="author">web</span></div>
+          </div> -->
+          <!-- <div class="task-card registered float-active">
+            <div class="task-card__header">
+              <div
+                class="task-card__title font-black"
+                contenteditable="false"
+                placeholder="제목을 입력하세요"
+              >
+                GitHub 공부하기
+              </div>
+              <span class="delete-btn cursor-pointer"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 11.25L0.75 10.5L5.25 6L0.75 1.5L1.5 0.75L6 5.25L10.5 0.75L11.25 1.5L6.75 6L11.25 10.5L10.5 11.25L6 6.75L1.5 11.25Z"
+                    fill="gray"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div
+              class="task-card__content font-black"
+              contenteditable="false"
+              placeholder="내용을 입력하세요"
+            >
+              add, commit, push
+            </div>
+            <div class="task-card__btns">
+              <button class="task-card__cancle-btn hidden">취소</button>
+              <button class="task-card__register-btn hidden">등록</button>
+            </div>
+            <div class="task-card__footer">author by <span id="author">web</span></div>
+          </div> -->
+        </div>
+      </section>
+    </main>
+
+    <div id="side-menu-bar" class="hide">
+      <div class="side-menu-bar__wrapper">
+        <div class="delete-btn cursor-pointer">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 12 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1.5 11.25L0.75 10.5L5.25 6L0.75 1.5L1.5 0.75L6 5.25L10.5 0.75L11.25 1.5L6.75 6L11.25 10.5L10.5 11.25L6 6.75L1.5 11.25Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+
+          </div>
+        </article>
+      </div>
+    </div>
+  </body>
+</html>
