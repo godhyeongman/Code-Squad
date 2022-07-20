@@ -1,15 +1,31 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
+import {useAccount} from '../Hooks/Account';
 import styled from 'styled-components';
 
-import {MONEY_BUTTON_DATA} from '../mocks/MoneyButtonData';
+import {MONEY_BUTTON_DATA} from '../Mocks/MoneyButtonData';
 import {UserAccount} from '../Store';
 import {InsertButton} from '../Component';
+import {accountReducer} from '../Reducer';
 
 export const Wallet = () => {
-  const {userMoney} = useContext(UserAccount);
+  const {account, sinkedAccount} = useContext(UserAccount);
+  const {insertMoney, userMoney, refundMoney} = useAccount(
+    account,
+    accountReducer,
+  );
+
+  useEffect(() => {
+    sinkedAccount(userMoney);
+  }, [userMoney]);
+
   return (
     <WalletWrapper>
-      <InsertButton insertBtnData={MONEY_BUTTON_DATA} />
+      <InsertButton
+        handleMoneyBtn={insertMoney}
+        insertBtnData={MONEY_BUTTON_DATA}
+        walletState={userMoney}
+        refundMoney={refundMoney}
+      />
       <TotalMoney>{userMoney.currentMoney}</TotalMoney>
     </WalletWrapper>
   );

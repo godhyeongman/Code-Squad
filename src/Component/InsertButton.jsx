@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import styled from 'styled-components';
 
-import {UserAccount} from '../Store';
+import {useTimer} from '../Store';
 
 const divideCurrentMoney = (moneyList, money) => {
   moneyList.forEach(v => {
@@ -11,39 +11,40 @@ const divideCurrentMoney = (moneyList, money) => {
   return moneyList;
 };
 
-// const handleMoneyButton = (
-//   unit,
-//   currentMoney,
-//   dispatchCurrentMoney,
-//   dispatchInsertedMoney,
-// ) => {
-//   if (currentMoney < unit) {
-//     return;
-//   }
+const handleMoneyButton =
+  (unit, currentMoney, insertMoney, count, setTimer, clearTimer, refundMoney) =>
+  () => {
+    if (currentMoney < unit || count === 0) {
+      return;
+    }
+    clearTimer();
+    insertMoney(unit);
+    setTimer(refundMoney, 'insert');
+  };
 
-//   dispatchCurrentMoney({type: 'decrease', income: unit});
-//   dispatchInsertedMoney({type: 'increase', income: unit});
-// };
-
-const handleMoneyButton = (unit, currentMoney, insertMoney) => {
-  if (currentMoney < unit) {
-    return;
-  }
-  insertMoney(unit);
-};
-
-export const InsertButton = ({insertBtnData}) => {
-  const {
-    userMoney: {currentMoney},
-    insertMoney,
-  } = useContext(UserAccount);
+export const InsertButton = ({
+  insertBtnData,
+  handleMoneyBtn,
+  walletState: {currentMoney},
+  refundMoney,
+}) => {
   const insertBtnList = divideCurrentMoney(insertBtnData, currentMoney);
+  const {setTimer, clearTimer} = useTimer();
 
   return insertBtnList.map(({unit, id, count}) => (
     <InsertBtnWrapper>
       <MoneyBtn
         key={id}
-        onClick={() => handleMoneyButton(unit, currentMoney, insertMoney)}
+        //Todo: 인자값 줄이기 리팩토링
+        onClick={handleMoneyButton(
+          unit,
+          currentMoney,
+          handleMoneyBtn,
+          count,
+          setTimer,
+          clearTimer,
+          refundMoney,
+        )}
       >
         {unit + '원'}
       </MoneyBtn>

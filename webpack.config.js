@@ -38,11 +38,12 @@ module.exports = {
     // }),
   ],
   output: {
-    path: path.join(__dirname, 'public'),
+    path: path.join(__dirname, 'dist'),
     filename: 'app.js',
     publicPath: './',
   },
   devServer: {
+    historyApiFallback: true,
     devMiddleware: {publicPath: '/'}, // devMiddleware의 publicPath는  빌드된 파일 넣는곳
     static: {directory: path.resolve(__dirname, 'public')}, // static은 빌드되기 전 파일이 있는 곳
     hot: true,

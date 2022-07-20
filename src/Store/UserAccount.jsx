@@ -1,53 +1,33 @@
-import React from 'react';
-
-import {useAccount} from '../Hooks/Account';
+import React, {useEffect, useState} from 'react';
 
 export const UserAccount = React.createContext(null);
 
-const accountReducer = (state, action) => {
-  switch (action.type) {
-    case 'insert':
-      return {
-        currentMoney: state.currentMoney - action.incomeMoney,
-        insertedMoney: state.insertedMoney + action.incomeMoney,
-      };
-
-    case 'refund':
-      return {
-        currentMoney: state.currentMoney + state.insertMoney,
-        insertedMoney: 0,
-      };
-
-    case 'buy':
-      return {
-        currentMoney: state.currentMoney,
-        insertMoney: state.insertMoney - action.incomeMoney,
-      };
-
-    default:
-      throw new Error(`잘못된 액션 입력입니다. ${action.type}`);
-  }
+const sinkState = accountState => currentState => {
+  accountState.currentMoney = currentState.currentMoney;
+  accountState.insertedMoney = currentState.insertedMoney;
+  accountState.history = currentState.history;
 };
 
-export const UserAccountContext = props => {
-  const {insertMoney, refundMoney, buyProduct, userMoney} = useAccount(
-    {
-      currentMoney: 36450,
-      insertedMoney: 0,
-    },
-    accountReducer,
-  );
+export const UserAccountContext = ({children, currentPage}) => {
+  const [account, setAccount] = useState({
+    currentMoney: 36450,
+    insertedMoney: 0,
+    history: [],
+  });
 
+  const sinkedAccount = sinkState(account);
+
+  useEffect(() => {
+    setAccount(account);
+  }, [currentPage]);
   return (
     <UserAccount.Provider
       value={{
-        insertMoney,
-        refundMoney,
-        buyProduct,
-        userMoney,
+        account,
+        sinkedAccount,
       }}
     >
-      {props.children}
+      {children}
     </UserAccount.Provider>
   );
 };

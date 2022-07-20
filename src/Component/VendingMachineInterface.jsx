@@ -1,26 +1,39 @@
-import React, {useContext, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import styled from 'styled-components';
 
-import {UserAccount} from '../Store';
-
-export const VendingMachineInterface = () => {
-  // const {insertedMoney, dispatchCurrentMoney, dispatchInsertedMoney} =
-  //   useContext(UserAccount);
-  const {userMoney, refundMoney} = useContext(UserAccount);
-  const refundBtn = useRef(null);
-
-  // const handleRefundBtn = () => {
-  //   dispatchCurrentMoney({type: 'increase', income: refundBtn.current.value});
-  //   dispatchInsertedMoney({type: 'refund'});
-  // };
+export const VendingMachineInterface = ({
+  handleRefundBtn,
+  walletState: {insertedMoney, history},
+  handleUserInput,
+}) => {
+  const [isInputClicked, setIsInputCliked] = useState(false);
+  const onInputEnter = e => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+    handleUserInput(e.target.value);
+    setIsInputCliked(false);
+  };
 
   return (
     <VM_Wrapper>
-      <VM_MoneyInput value={userMoney.insertedMoney} />
-      <VM_RefundBtn ref={refundBtn} onClick={refundMoney}>
-        잔액 반환
-      </VM_RefundBtn>
-      <VM_History></VM_History>
+      {isInputClicked ? (
+        <VM_MoneyInput onKeyDown={onInputEnter} />
+      ) : (
+        <VM_insertedMoney
+          onClick={() => {
+            setIsInputCliked(true);
+          }}
+        >
+          {insertedMoney} 원
+        </VM_insertedMoney>
+      )}
+      <VM_RefundBtn onClick={handleRefundBtn}>잔액 반환</VM_RefundBtn>
+      <VM_History>
+        {history.map(historyLog => {
+          return <VM_HistoryLog>{historyLog}</VM_HistoryLog>;
+        })}
+      </VM_History>
     </VM_Wrapper>
   );
 };
@@ -66,4 +79,22 @@ const VM_History = styled.div`
   border: 1px solid black;
   border-radius: 20px;
   padding: 10px;
+`;
+
+const VM_HistoryLog = styled.div`
+  margin-bottom: 5px;
+  border-bottom: 0.5px solid black;
+  padding: 5px 0;
+`;
+
+const VM_insertedMoney = styled.div`
+  display: flex;
+  align-items: center;
+  width: 300px;
+  height: 80px;
+  font-size: 20px;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 10px;
+  color: grey;
 `;
