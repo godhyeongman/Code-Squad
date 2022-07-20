@@ -1,0 +1,9 @@
+@use 'reset.scss';
+@use 'header.scss';
+@use 'taskColumn';
+@use 'taskCard.scss';
+@use 'sideMenuBar.scss';
+
+body {
+  background-color: #f5f5f7;
+}
