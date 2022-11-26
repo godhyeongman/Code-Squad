@@ -21,6 +21,12 @@
 * 라이브러리/프레임워크 | 리액트, CRA, 리액트 라우터 돔, 스타일드 컴포넌트
 * 상태관리 | Context Api
 
+## branch convention
+
+* dev 브랜치에서 개발 진행
+* dott 브랜치, geon 브랜치 각자 진행후 PR 진행전 병합하여 PR 리뷰 진행
+* 공통 작업은 vsc sharing 이용
+
 ## Ground Rule
 
 * CoreTime : 10:00 ~ 18:00(주간)
